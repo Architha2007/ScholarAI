@@ -109,15 +109,15 @@ Question Answering
 
 ### Home Page
 
-Home Page
+![Home Page](screenshots/home.png)
 
 ### Analysis Dashboard
 
-Analysis Dashboard
+![Analysis Dashboard](screenshots/analysis.png)
 
 ### RAG Chat Assistant
 
-## RAG Chat Assistant
+![RAG Chat Assistant](screenshots/chat.png)
 
 ## ⚙️ Installation
 
