@@ -109,16 +109,15 @@ Question Answering
 
 ### Home Page
 
-![Home Page](screenshots/home.png)
+Home Page
 
 ### Analysis Dashboard
 
-![Analysis Dashboard](screenshots/analysis.png)
+Analysis Dashboard
 
 ### RAG Chat Assistant
 
-![RAG Chat Assistant](screenshots/chat.png)
----
+## RAG Chat Assistant
 
 ## ⚙️ Installation
 
@@ -181,14 +180,13 @@ streamlit run app.py
 
 [B.Tech](http://B.Tech) Electrical and Computer Engineering
 
-Areas of Interest:
+**Areas of Interest:**
 
-• Artificial Intelligence & Machine Learning
-• Software Engineering
-• Research Automation
-• Large Language Models (LLMs)
-• Retrieval-Augmented Generation (RAG)
----
+- Artificial Intelligence & Machine Learning
+- Software Engineering
+- Research Automation
+- Large Language Models (LLMs)
+- Retrieval-Augmented Generation (RAG)
 
 ## 📜 License
 
