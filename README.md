@@ -118,9 +118,6 @@ Question Answering
 ### RAG Chat Assistant
 
 ![RAG Chat Assistant](screenshots/chat.png)
-
-RAG Chat Assistant
-
 ---
 
 ## ⚙️ Installation
