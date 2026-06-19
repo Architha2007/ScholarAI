@@ -103,7 +103,7 @@ def build_vector_store_from_chunks(chunks: list[str]) -> FAISS:
     print(f"Creating embeddings for {len(chunks)} chunks...")
 
     embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
+        model="models/geminiembedding-001",
         google_api_key=_get_api_key(),
     )
 
