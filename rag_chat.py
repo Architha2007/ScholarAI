@@ -20,12 +20,22 @@ TOP_K_CHUNKS = 4
 
 
 def _get_api_key() -> str:
-    """Read the Gemini API key from the .env file."""
+    """Read the Gemini API key from Streamlit secrets or .env."""
+    try:
+        import streamlit as st
+
+        if "GEMINI_API_KEY" in st.secrets:
+            return st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        pass
+
     api_key = os.getenv("GEMINI_API_KEY")
+
     if not api_key:
         raise ValueError(
-            "GEMINI_API_KEY not found. Add it to your .env file."
+            "GEMINI_API_KEY not found in Streamlit secrets or .env file."
         )
+
     return api_key
 
 
