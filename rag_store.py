@@ -102,8 +102,10 @@ def build_vector_store_from_chunks(chunks: list[str]) -> FAISS:
     """Turn pre-created text chunks into a searchable FAISS vector database."""
     print(f"Creating embeddings for {len(chunks)} chunks...")
 
+    print("Using model: models/gemini-embedding-001")
+    print("API key loaded:", bool(_get_api_key()))
     embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/geminiembedding-001",
+        model="models/gemini-embedding-001",
         google_api_key=_get_api_key(),
     )
 
