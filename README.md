@@ -125,7 +125,7 @@ Question Answering
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/ScholarAI.git
+git clone https://github.com/Architha2007/ScholarAI.git
 cd ScholarAI
 
 ```
@@ -181,13 +181,13 @@ streamlit run app.py
 
 [B.Tech](http://B.Tech) Electrical and Computer Engineering
 
-Interested in:
+Areas of Interest:
 
-- Artificial Intelligence
-- Machine Learning
-- Software Development
-- Research Automation
-
+• Artificial Intelligence & Machine Learning
+• Software Engineering
+• Research Automation
+• Large Language Models (LLMs)
+• Retrieval-Augmented Generation (RAG)
 ---
 
 ## 📜 License
