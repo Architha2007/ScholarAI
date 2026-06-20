@@ -50,20 +50,12 @@ def trim_text_for_indexing(text: str) -> str:
 
 
 def _get_api_key() -> str:
-    try:
-        import streamlit as st
-
-        if "GEMINI_API_KEY" in st.secrets:
-            key = st.secrets["GEMINI_API_KEY"]
-            print("KEY LENGTH:", len(key))
-            print("KEY PREFIX:", key[:5])
-            return key
-    except Exception:
-        pass
-
+    def _get_api_key() -> str:
     api_key = os.getenv("GEMINI_API_KEY")
-    print("KEY LENGTH:", len(api_key) if api_key else 0)
-    print("KEY PREFIX:", api_key[:5] if api_key else "NONE")
+    if not api_key:
+        raise ValueError(
+            "GEMINI_API_KEY not found. Add it to your .env file."
+        )
     return api_key
 
 

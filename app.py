@@ -22,6 +22,13 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+if st.button("Test Gemini"):
+    try:
+        model = genai.GenerativeModel("gemini-2.5-flash")
+        response = model.generate_content("Say hello")
+        st.success(response.text)
+    except Exception as e:
+        st.error(str(e))
 
 # ---------------------------------------------------------------------------
 # Custom styling for a clean, beginner-friendly layout.
