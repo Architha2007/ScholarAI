@@ -2,7 +2,7 @@ streamlit==1.45.1
 google-generativeai==0.8.5
 pypdf==5.5.0
 python-dotenv==1.1.0
-faiss-cpu==1.11.0
+faiss-cpu==1.14.3
 langchain==0.3.25
 langchain-community==0.3.24
 langchain-google-genai==2.1.4
