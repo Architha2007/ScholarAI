@@ -48,9 +48,7 @@ def trim_text_for_indexing(text: str) -> str:
     """Keep only the first portion of text used for RAG indexing."""
     return text[:INDEXING_CHAR_LIMIT]
 
-
 def _get_api_key() -> str:
-    def _get_api_key() -> str:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise ValueError(
