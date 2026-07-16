@@ -2,19 +2,19 @@
 
 import streamlit as st
 
-from gemini_summarizer import analyze_research_paper
-from pdf_extractor import extract_pdf_details
-from rag_chat import ask_paper_question
-from rag_store import (
-    INDEXING_CHAR_LIMIT,
-    MAX_ANALYSIS_CHARS,
-    build_vector_store_from_chunks,
-    create_text_chunks,
-    get_text_processing_stats,
-    trim_text_for_analysis,
+from src.chat.state import reset_paper_state
+from src.chat.ui import handle_chat_input, show_chat_with_paper
+from src.config.settings import APP_MODEL, INDEXING_CHAR_LIMIT, MAX_ANALYSIS_CHARS
+from src.ingestion.pdf import extract_pdf_details
+from src.generation.summarizer import analyze_research_paper
+from src.preprocessing.chunking import create_text_chunks
+from src.preprocessing.text import get_text_processing_stats, trim_text_for_analysis
+from src.retrieval.vector_store import build_vector_store_from_chunks
+from src.utils.formatting import (
+    format_analysis_export,
+    format_file_size,
+    sanitize_paper_filename,
 )
-
-APP_MODEL = "Gemini 2.5 Flash"
 
 st.set_page_config(
     page_title="ScholarAI",
@@ -162,116 +162,6 @@ if "pdf_details" not in st.session_state:
 
 if "indexing_stats" not in st.session_state:
     st.session_state.indexing_stats = None
-
-
-def reset_paper_state() -> None:
-    """Clear old paper data when a new PDF is uploaded."""
-    st.session_state.analysis = None
-    st.session_state.vector_store = None
-    st.session_state.chat_messages = []
-    st.session_state.paper_name = None
-    st.session_state.pdf_details = None
-    st.session_state.indexing_stats = None
-
-
-def clear_chat_history() -> None:
-    """
-    Clear only the chat messages.
-
-    The PDF index (vector_store), analysis, and upload details stay in
-    session_state so the user does not need to re-upload or re-analyze.
-    """
-    st.session_state.chat_messages = []
-
-
-def sanitize_paper_filename(paper_name: str) -> str:
-    """Turn a PDF filename into a safe name for the analysis export file."""
-    base_name = paper_name.rsplit(".", 1)[0] if "." in paper_name else paper_name
-    safe_name = "".join(
-        character if character.isalnum() or character in ("-", "_") else "_"
-        for character in base_name
-    )
-    return safe_name.strip("_") or "paper"
-
-
-def format_analysis_export(analysis: dict, paper_name: str) -> str:
-    """Build a clean, readable text export of all analysis sections."""
-    lines = [
-        "ScholarAI — Research Paper Analysis",
-        "=" * 60,
-        f"Paper: {paper_name}",
-        "",
-        "DIFFICULTY RATING",
-        "-" * 60,
-        f"{analysis.get('difficulty_rating', 'N/A')} / 10",
-        "",
-        "EXECUTIVE SUMMARY",
-        "-" * 60,
-        analysis.get("executive_summary", "Not available."),
-        "",
-        "KEY TAKEAWAYS",
-        "-" * 60,
-    ]
-
-    takeaways = analysis.get("key_takeaways", [])
-    if takeaways:
-        for index, takeaway in enumerate(takeaways, start=1):
-            lines.append(f"{index}. {takeaway}")
-    else:
-        lines.append("Not available.")
-
-    lines.extend(
-        [
-            "",
-            "BEGINNER EXPLANATION (ELI15)",
-            "-" * 60,
-            analysis.get("beginner_explanation", "Not available."),
-            "",
-            "QUIZ QUESTIONS",
-            "-" * 60,
-        ]
-    )
-
-    quiz = analysis.get("quiz_questions", [])
-    if quiz:
-        for index, item in enumerate(quiz, start=1):
-            question = item.get("question", "No question provided.")
-            answer = item.get("answer", "No answer provided.")
-            lines.append(f"{index}. {question}")
-            lines.append(f"   Answer: {answer}")
-            lines.append("")
-    else:
-        lines.append("Not available.")
-        lines.append("")
-
-    lines.extend(["INTERVIEW QUESTIONS", "-" * 60])
-
-    interview = analysis.get("interview_questions", [])
-    if interview:
-        for index, question in enumerate(interview, start=1):
-            lines.append(f"{index}. {question}")
-    else:
-        lines.append("Not available.")
-
-    lines.extend(["", "FUTURE RESEARCH IDEAS", "-" * 60])
-
-    ideas = analysis.get("future_research_ideas", [])
-    if ideas:
-        for index, idea in enumerate(ideas, start=1):
-            lines.append(f"{index}. {idea}")
-    else:
-        lines.append("Not available.")
-
-    return "\n".join(lines)
-
-
-def format_file_size(size_bytes: int) -> str:
-    """Turn raw byte count into a readable file size."""
-    if size_bytes < 1024:
-        return f"{size_bytes} B"
-    if size_bytes < 1024 * 1024:
-        return f"{size_bytes / 1024:.1f} KB"
-    return f"{size_bytes / (1024 * 1024):.1f} MB"
 
 
 def show_metrics_row() -> None:
@@ -505,134 +395,7 @@ def show_analysis_results(analysis: dict) -> None:
             st.markdown(f"{index}. {idea}")
 
 
-def show_chat_with_paper() -> None:
-    """Render the Streamlit chat interface for asking questions about the PDF."""
-    st.markdown("---")
-
-    chat_header_col, clear_col = st.columns([4, 1])
-    with chat_header_col:
-        st.subheader("💬 Chat With Paper")
-        if st.session_state.paper_name:
-            st.caption(f"Active paper: **{st.session_state.paper_name}**")
-        st.caption(
-            "Ask questions about the uploaded paper. "
-            "Answers are grounded in retrieved PDF chunks."
-        )
-    with clear_col:
-        st.write("")
-        if st.button(
-            "🗑️ Clear Chat",
-            key="clear_chat_button",
-            use_container_width=True,
-            help="Remove chat messages but keep your indexed PDF ready for new questions.",
-        ):
-            clear_chat_history()
-            st.toast("Chat history cleared. Your PDF index is still active.", icon="✅")
-            st.rerun()
-
-    # Show previous chat messages.
-    for message in st.session_state.chat_messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
-            # For assistant answers, show which chunks were used.
-            if message["role"] == "assistant" and message.get("source_chunks"):
-                with st.expander("📎 Source Chunks Used"):
-                    for chunk in message["source_chunks"]:
-                        chunk_id = chunk.get("chunk_id", "?")
-                        st.markdown(f"**Chunk {chunk_id}**")
-                        st.write(chunk.get("text", ""))
-                        st.markdown("---")
-
-st.markdown("### 💡 Suggested Questions")
-
-if "selected_question" not in st.session_state:
-    st.session_state.selected_question = None
-
-if st.button("📌 Main Contribution"):
-    st.session_state.selected_question = (
-        "What is the main contribution of this paper?"
-    )
-
-if st.button("📌 Methodology Used"):
-    st.session_state.selected_question = (
-        "What methodology was used in this paper?"
-    )
-
-if st.button("📌 Limitations"):
-    st.session_state.selected_question = (
-        "What are the limitations of this paper?"
-    )
-
-if st.button("📌 Future Work"):
-    st.session_state.selected_question = (
-        "What future work is suggested by this paper?"
-    )
-
-typed_question = st.chat_input(
-    "Ask a question about this paper..."
-)
-
-user_question = (
-    st.session_state.selected_question
-    if st.session_state.selected_question
-    else typed_question
-)
-
-if user_question:
-    st.session_state.selected_question = None
-
-# Chat input stays at the bottom of the section.
-if user_question:
-        # Save and display the user's message immediately.
-        st.session_state.chat_messages.append(
-            {"role": "user", "content": user_question}
-        )
-
-        with st.chat_message("user"):
-            st.markdown(user_question)
-
-        # Generate an answer with RAG.
-        with st.chat_message("assistant"):
-            with st.spinner("Searching the paper and generating an answer..."):
-                try:
-                    result = ask_paper_question(
-                        st.session_state.vector_store,
-                        user_question,
-                    )
-
-                    answer = result["answer"]
-                    source_chunks = result["source_chunks"]
-
-                    st.markdown(answer)
-
-                    if source_chunks:
-                        with st.expander("📎 Source Chunks Used"):
-                            for chunk in source_chunks:
-                                chunk_id = chunk.get("chunk_id", "?")
-                                st.markdown(f"**Chunk {chunk_id}**")
-                                st.write(chunk.get("text", ""))
-                                st.markdown("---")
-
-                    # Save assistant response for future reruns.
-                    st.session_state.chat_messages.append(
-                        {
-                            "role": "assistant",
-                            "content": answer,
-                            "source_chunks": source_chunks,
-                        }
-                    )
-
-                except Exception as error:
-                    error_message = f"Something went wrong: {error}"
-                    st.error(error_message)
-                    st.session_state.chat_messages.append(
-                        {
-                            "role": "assistant",
-                            "content": error_message,
-                            "source_chunks": [],
-                        }
-                    )
+handle_chat_input()
 
 
 # ---------------------------------------------------------------------------

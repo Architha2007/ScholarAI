@@ -4,11 +4,8 @@ import json
 import os
 
 import google.generativeai as genai
-from dotenv import load_dotenv
 
-from rag_store import MAX_ANALYSIS_CHARS
-
-load_dotenv()
+from src.config.settings import MAX_ANALYSIS_CHARS
 
 
 def analyze_research_paper(text: str) -> dict:

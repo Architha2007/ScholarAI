@@ -1,7 +1,7 @@
 """
 Answer user questions about a paper using RAG (Retrieval Augmented Generation).
 
-This file handles the "question answering" side of RAG:
+This module handles the "question answering" side of RAG:
 1. Search the FAISS database for chunks similar to the user's question
 2. Send those chunks + the question to Gemini 2.5 Flash
 3. Return Gemini's answer along with the source chunks used
@@ -9,14 +9,10 @@ This file handles the "question answering" side of RAG:
 
 import os
 
-from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-load_dotenv()
-
-# How many of the most relevant chunks to retrieve for each question.
-TOP_K_CHUNKS = 4
+from src.config.settings import TOP_K_CHUNKS
 
 
 def _get_api_key() -> str:

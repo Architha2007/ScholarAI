@@ -4,7 +4,7 @@ from io import BytesIO
 
 from pypdf import PdfReader
 
-from rag_store import MAX_ANALYSIS_CHARS
+from src.config.settings import MAX_ANALYSIS_CHARS
 
 
 def extract_text_from_pdf(pdf_file) -> str:
