@@ -29,6 +29,8 @@ def tokenize(text: str) -> List[str]:
 
 def _get_chunk_text(chunk: Any) -> str:
     """Extracts text from a chunk object or dictionary."""
+    if isinstance(chunk, str):
+        return chunk
     if isinstance(chunk, dict):
         return chunk.get("text", chunk.get("page_content", ""))
 
@@ -119,8 +121,12 @@ class BM25Retriever:
         results = []
         for idx, score in enumerate(scores):
             chunk = self.chunks[idx]
+            chunk_id = _get_chunk_id(chunk)
+            if not chunk_id:
+                # Fallback to positional index (1-based) to match FAISS
+                chunk_id = idx + 1
             results.append({
-                "chunk_id": _get_chunk_id(chunk),
+                "chunk_id": chunk_id,
                 "chunk_text": _get_chunk_text(chunk),
                 "retrieval_score": float(score),
                 "metadata": _get_chunk_metadata(chunk),
@@ -195,4 +201,4 @@ def search_bm25(
     Returns:
         List of retrieval results.
     """
-    return retriever.retrieve(query, top_k=top_k)
+    return retriever.retrieve(query, top_k=top_k)
