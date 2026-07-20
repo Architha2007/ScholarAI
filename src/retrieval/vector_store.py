@@ -13,15 +13,11 @@ from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from src.preprocessing.chunking import create_text_chunks
+from src.utils.gemini import get_gemini_api_key
 
 
 def _get_api_key() -> str:
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError(
-            "GEMINI_API_KEY not found. Add it to your .env file."
-        )
-    return api_key
+    return get_gemini_api_key()
 
 
 def build_vector_store_from_chunks(chunks: list[str]) -> FAISS:

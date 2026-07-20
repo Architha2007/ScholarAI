@@ -1,11 +1,11 @@
 """Send paper text to Gemini and get a full research analysis back."""
 
 import json
-import os
 
 import google.generativeai as genai
 
 from src.config.settings import MAX_ANALYSIS_CHARS
+from src.utils.gemini import get_generative_model
 
 
 def analyze_research_paper(text: str) -> dict:
@@ -16,14 +16,7 @@ def analyze_research_paper(text: str) -> dict:
     interview questions, future research ideas, beginner explanation,
     and difficulty rating.
     """
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError(
-            "GEMINI_API_KEY not found. Add it to your .env file."
-        )
-
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    model = get_generative_model("gemini-2.5-flash")
 
     if len(text) > MAX_ANALYSIS_CHARS:
         text = text[:MAX_ANALYSIS_CHARS]
@@ -33,7 +26,8 @@ def analyze_research_paper(text: str) -> dict:
         "Read the research paper below and return a JSON object with exactly "
         "these keys:\n\n"
         "{\n"
-        '  "executive_summary": "A concise 3-5 sentence overview of the paper",\n'
+        '  "executive_summary": "A concise 3-5 sentence overview of '
+        'the paper",\n'
         '  "key_takeaways": ["takeaway 1", "takeaway 2", "takeaway 3", '
         '"takeaway 4", "takeaway 5"],\n'
         '  "beginner_explanation": "Explain the paper like the reader is 15 '
@@ -63,11 +57,13 @@ def analyze_research_paper(text: str) -> dict:
         "}\n\n"
         "Rules:\n"
         "- key_takeaways must have exactly 5 bullet points.\n"
-        "- quiz_questions must have exactly 5 items with question and answer.\n"
+        "- quiz_questions must have exactly 5 items with question "
+        "and answer.\n"
         "- interview_questions must have exactly 5 technical questions "
         "suitable for a job interview.\n"
         "- future_research_ideas must have exactly 5 items describing "
-        "possible future research directions or improvements based on the paper.\n"
+        "possible future research directions or improvements based on "
+        "the paper.\n"
         "- difficulty_rating must be an integer from 1 (very easy) to 10 "
         "(very advanced).\n"
         "- Return only valid JSON, no markdown or extra text.\n\n"

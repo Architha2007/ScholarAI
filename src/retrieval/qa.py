@@ -7,32 +7,16 @@ This module handles the "question answering" side of RAG:
 3. Return Gemini's answer along with the source chunks used
 """
 
-import os
-
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from src.config.settings import TOP_K_CHUNKS
+from src.utils.gemini import get_gemini_api_key
 
 
 def _get_api_key() -> str:
     """Read the Gemini API key from Streamlit secrets or .env."""
-    try:
-        import streamlit as st
-
-        if "GEMINI_API_KEY" in st.secrets:
-            return st.secrets["GEMINI_API_KEY"]
-    except Exception:
-        pass
-
-    api_key = os.getenv("GEMINI_API_KEY")
-
-    if not api_key:
-        raise ValueError(
-            "GEMINI_API_KEY not found in Streamlit secrets or .env file."
-        )
-
-    return api_key
+    return get_gemini_api_key()
 
 
 def _format_context_chunks(documents) -> str:
