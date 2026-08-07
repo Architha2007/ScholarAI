@@ -1,7 +1,8 @@
 """Query processing module for ScholarAI.
 
 Performs query expansion and decomposition using Gemini 2.5 Flash.
-Exposes a single `process_query` function to transform user queries before retrieval.
+Exposes a single `process_query` function to transform user queries
+before retrieval.
 """
 
 import json
@@ -34,35 +35,48 @@ def process_query(query: str) -> List[str]:
     original_query = query.strip()
 
     # --- Prompt and Structured JSON Output Rationale ---
-    # Prompt Design: We instruct the LLM to classify the query as simple or complex
-    # and perform only one action (expansion or decomposition) accordingly.
-    # Structured JSON: Ensuring a fixed JSON output format prevents parsing issues
-    # and enables robust fallback checks.
-    # Low Temperature: A temperature of 0.1 restricts randomness, generating
-    # highly relevant and focused search terms rather than creative descriptions.
+    # Prompt Design: We instruct the LLM to classify the query as simple
+    # or complex and perform only one action (expansion or decomposition)
+    # accordingly.
+    # Structured JSON: Ensuring a fixed JSON output format prevents
+    # parsing issues and enables robust fallback checks.
+    # Low Temperature: A temperature of 0.1 restricts randomness,
+    # generating highly relevant and focused search terms rather than
+    # creative descriptions.
     prompt = (
-        "You are an expert search query optimizer for a scientific research paper assistant.\n"
-        "Your task is to analyze the user's input search query and decide whether it is simple or complex, "
-        "then generate optimized queries to improve hybrid (sparse/dense) RAG retrieval.\n\n"
+        "You are an expert search query optimizer for a scientific "
+        "research paper assistant.\n"
+        "Your task is to analyze the user's input search query and "
+        "decide whether it is simple or complex, "
+        "then generate optimized queries to improve hybrid "
+        "(sparse/dense) RAG retrieval.\n\n"
         "Instructions:\n"
         "1. Classification:\n"
-        "   - If the query is simple, short, or containing abbreviations, lightly expand it by generating "
-        "     1 or 2 focused variations. Add synonyms, expand abbreviations, or insert domain-specific terminology "
+        "   - If the query is simple, short, or containing "
+        "abbreviations, lightly expand it by generating "
+        "     1 or 2 focused variations. Add synonyms, expand "
+        "abbreviations, or insert domain-specific terminology "
         "     without changing the original user's intent.\n"
-        "   - If the query is complex, multi-part, or asks multiple questions, decompose it into 2 to 3 "
+        "   - If the query is complex, multi-part, or asks "
+        "multiple questions, decompose it into 2 to 3 "
         "     focused, simpler sub-queries.\n"
-        "   - Do not perform both expansion and decomposition on the same query unless clearly beneficial.\n"
+        "   - Do not perform both expansion and decomposition on "
+        "the same query unless clearly beneficial.\n"
         "2. Output format:\n"
-        "   - You must return a JSON object containing a single key 'queries' containing a list of strings "
+        "   - You must return a JSON object containing a single key "
+        "'queries' containing a list of strings "
         "     representing the processed queries.\n"
-        "   - The list should be ordered from most important/useful to least important/useful.\n"
+        "   - The list should be ordered from most important/useful "
+        "to least important/useful.\n"
         "   - Do not include the original query in the 'queries' list.\n"
         "3. Output constraints:\n"
-        "   - Return ONLY valid JSON matching the schema below. No markdown wrappers, no backticks.\n\n"
+        "   - Return ONLY valid JSON matching the schema below. "
+        "No markdown wrappers, no backticks.\n\n"
         f"Original User Query: {original_query}\n\n"
         "JSON Response Schema:\n"
         "{\n"
-        '  "queries": ["most useful query variation/sub-query", "next most useful query variation/sub-query"]\n'
+        '  "queries": ["most useful query variation/sub-query", '
+        '"next most useful query variation/sub-query"]\n'
         "}"
     )
 
@@ -113,5 +127,6 @@ def process_query(query: str) -> List[str]:
         return result[:3]
 
     except Exception:
-        # Graceful fallback: on any error (network, API, parsing), return original query
+        # Graceful fallback: on any error (network, API, parsing),
+        # return original query
         return [original_query]

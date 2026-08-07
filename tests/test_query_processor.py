@@ -1,7 +1,8 @@
 """Standalone smoke test for Query Processor module.
 
-Validates query expansion, decomposition, domain-specific abbreviation handling,
-and API failure fallback handling using real and mocked Gemini calls.
+Validates query expansion, decomposition, domain-specific
+abbreviation handling, and API failure fallback handling
+using real and mocked Gemini calls.
 """
 
 import os
