@@ -1,0 +1,210 @@
+[
+  {
+    "id": "q001",
+    "question": "What BLEU score did the big Transformer model achieve on the WMT 2014 English-to-German translation task?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_1",
+      "attention_all_you_need:chunk_9"
+    ]
+  },
+  {
+    "id": "q002",
+    "question": "How does the computational complexity per layer of self-attention compare to recurrent layers when sequence length n is smaller than representation dimension d?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_7"
+    ]
+  },
+  {
+    "id": "q003",
+    "question": "What are the two sub-layers in each layer of the Transformer encoder stack?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_4"
+    ]
+  },
+  {
+    "id": "q004",
+    "question": "Why do the authors scale the dot product by 1 over square root of d_k in Scaled Dot-Product Attention?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_5"
+    ]
+  },
+  {
+    "id": "q005",
+    "question": "What formula is used for sinusoidal positional encodings in the Transformer model?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_7"
+    ]
+  },
+  {
+    "id": "q006",
+    "question": "What hyperparameters were used for the Adam optimizer during Transformer training?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_8"
+    ]
+  },
+  {
+    "id": "q007",
+    "question": "How many parallel attention layers or heads are used in the base Transformer model and what is the dimension of each head?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_6"
+    ]
+  },
+  {
+    "id": "q008",
+    "question": "How does the Transformer decoder modify its self-attention sub-layer to maintain the auto-regressive property?",
+    "source_document": "attention_all_you_need",
+    "relevant_chunk_ids": [
+      "attention_all_you_need:chunk_4",
+      "attention_all_you_need:chunk_6"
+    ]
+  },
+  {
+    "id": "q009",
+    "question": "How does Dense Passage Retrieval (DPR) outperform Lucene-BM25 on open-domain question answering datasets?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_1"
+    ]
+  },
+  {
+    "id": "q010",
+    "question": "What example is given in the DPR paper to illustrate why term-based systems fail when matching synonyms like bad guy and villain?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_1"
+    ]
+  },
+  {
+    "id": "q011",
+    "question": "What are the two main weaknesses of ICT pretraining identified by the authors of DPR in relation to ORQA?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_3"
+    ]
+  },
+  {
+    "id": "q012",
+    "question": "What architecture does DPR use for calculating similarity between questions and passages?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_3",
+      "dense_passage_retrieval:chunk_4"
+    ]
+  },
+  {
+    "id": "q013",
+    "question": "What top-5 retrieval accuracy does DPR achieve compared to BM25 on the open Natural Questions benchmark?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_3"
+    ]
+  },
+  {
+    "id": "q014",
+    "question": "How does DPR define the top-k passage retrieval accuracy metric?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_3"
+    ]
+  },
+  {
+    "id": "q015",
+    "question": "What pre-trained model checkpoint forms the foundation of the question and passage encoders in DPR?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_3"
+    ]
+  },
+  {
+    "id": "q016",
+    "question": "What fast indexing and search algorithm is used for dense vector retrieval in DPR?",
+    "source_document": "dense_passage_retrieval",
+    "relevant_chunk_ids": [
+      "dense_passage_retrieval:chunk_1"
+    ]
+  },
+  {
+    "id": "q017",
+    "question": "What are the two key components of the RAG architecture described in the paper?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_1",
+      "retrieval_augmented_generation:chunk_3"
+    ]
+  },
+  {
+    "id": "q018",
+    "question": "What is the difference between RAG-Sequence and RAG-Token models during text generation?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_1",
+      "retrieval_augmented_generation:chunk_4"
+    ]
+  },
+  {
+    "id": "q019",
+    "question": "What pre-trained seq2seq model is used as the generator in the RAG framework?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_1",
+      "retrieval_augmented_generation:chunk_4"
+    ]
+  },
+  {
+    "id": "q020",
+    "question": "What external document corpus is indexed for non-parametric memory in the RAG paper?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_1",
+      "retrieval_augmented_generation:chunk_4"
+    ]
+  },
+  {
+    "id": "q021",
+    "question": "Why do hybrid models with non-parametric memory address the hallucination problem in large pre-trained language models?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_1"
+    ]
+  },
+  {
+    "id": "q022",
+    "question": "On which open-domain QA tasks did RAG set new state-of-the-art results?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_1",
+      "retrieval_augmented_generation:chunk_2"
+    ]
+  },
+  {
+    "id": "q023",
+    "question": "How does RAG calculate marginal probabilities over top-K retrieved documents for target sequences?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_4"
+    ]
+  },
+  {
+    "id": "q024",
+    "question": "What advantages does replacing non-parametric memory offer when real-world facts change?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_2"
+    ]
+  },
+  {
+    "id": "q025",
+    "question": "How does the bi-encoder retriever in RAG score documents for a given query x?",
+    "source_document": "retrieval_augmented_generation",
+    "relevant_chunk_ids": [
+      "retrieval_augmented_generation:chunk_4"
+    ]
+  }
+]
