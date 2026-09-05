@@ -5,8 +5,8 @@
     "precision@5": 0.2,
     "recall@5": 1.0,
     "mrr": 0.7708,
-    "avg_latency_ms": 454.266,
-    "median_latency_ms": 455.42
+    "avg_latency_ms": 463.181,
+    "median_latency_ms": 457.051
   },
   "per_query": [
     {
@@ -25,7 +25,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 454.184
+      "latency_ms": 492.846
     },
     {
       "id": "q_attention_02",
@@ -43,7 +43,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 480.032
+      "latency_ms": 475.541
     },
     {
       "id": "q_attention_03",
@@ -61,7 +61,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 421.297
+      "latency_ms": 456.389
     },
     {
       "id": "q_attention_04",
@@ -79,7 +79,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.5,
-      "latency_ms": 488.845
+      "latency_ms": 479.237
     },
     {
       "id": "q_attention_05",
@@ -97,7 +97,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 455.63
+      "latency_ms": 457.713
     },
     {
       "id": "q_attention_06",
@@ -115,7 +115,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 457.081
+      "latency_ms": 508.214
     },
     {
       "id": "q_attention_07",
@@ -133,7 +133,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 463.391
+      "latency_ms": 450.713
     },
     {
       "id": "q_rag_01",
@@ -151,7 +151,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.5,
-      "latency_ms": 436.436
+      "latency_ms": 445.417
     },
     {
       "id": "q_rag_02",
@@ -169,7 +169,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.5,
-      "latency_ms": 422.462
+      "latency_ms": 450.128
     },
     {
       "id": "q_rag_03",
@@ -187,7 +187,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 454.846
+      "latency_ms": 452.648
     },
     {
       "id": "q_rag_04",
@@ -205,7 +205,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 460.426
+      "latency_ms": 478.403
     },
     {
       "id": "q_rag_05",
@@ -223,7 +223,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 439.22
+      "latency_ms": 446.58
     },
     {
       "id": "q_rag_06",
@@ -241,7 +241,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 455.209
+      "latency_ms": 455.529
     },
     {
       "id": "q_rag_07",
@@ -259,7 +259,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 459.15
+      "latency_ms": 452.579
     },
     {
       "id": "q_dpr_01",
@@ -277,7 +277,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 454.001
+      "latency_ms": 475.462
     },
     {
       "id": "q_dpr_02",
@@ -295,7 +295,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.25,
-      "latency_ms": 455.879
+      "latency_ms": 466.545
     },
     {
       "id": "q_dpr_03",
@@ -313,7 +313,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.3333,
-      "latency_ms": 498.242
+      "latency_ms": 461.259
     },
     {
       "id": "q_dpr_04",
@@ -331,7 +331,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.5,
-      "latency_ms": 456.704
+      "latency_ms": 470.957
     },
     {
       "id": "q_dpr_05",
@@ -349,7 +349,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.3333,
-      "latency_ms": 444.566
+      "latency_ms": 454.957
     },
     {
       "id": "q_dpr_06",
@@ -367,7 +367,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.5,
-      "latency_ms": 427.72
+      "latency_ms": 432.501
     }
   ]
 }
