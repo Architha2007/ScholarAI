@@ -1,0 +1,1532 @@
+{
+  "num_queries": 20,
+  "k": 5,
+  "comparison_matrix": {
+    "faiss_only": {
+      "name": "1. FAISS-only (Dense Vector)",
+      "precision@5": 0.2,
+      "recall@5": 1.0,
+      "mrr": 0.7708,
+      "avg_latency_ms": 517.152,
+      "median_latency_ms": 479.843
+    },
+    "bm25_only": {
+      "name": "2. BM25-only (Sparse Keyword)",
+      "precision@5": 0.19,
+      "recall@5": 0.95,
+      "mrr": 0.95,
+      "avg_latency_ms": 0.427,
+      "median_latency_ms": 0.378
+    },
+    "hybrid_rrf": {
+      "name": "3. Hybrid RRF (FAISS + BM25)",
+      "precision@5": 0.2,
+      "recall@5": 1.0,
+      "mrr": 0.935,
+      "avg_latency_ms": 492.994,
+      "median_latency_ms": 478.096
+    },
+    "hybrid_reranked": {
+      "name": "4. Hybrid + Cross-Encoder Reranked",
+      "precision@5": 0.16,
+      "recall@5": 0.8,
+      "mrr": 0.6492,
+      "avg_latency_ms": 2968.426,
+      "median_latency_ms": 2449.295
+    }
+  },
+  "strategies": {
+    "faiss_only": {
+      "num_queries": 20,
+      "k": 5,
+      "metrics": {
+        "precision@5": 0.2,
+        "recall@5": 1.0,
+        "mrr": 0.7708,
+        "avg_latency_ms": 517.152,
+        "median_latency_ms": 479.843
+      },
+      "per_query": [
+        {
+          "id": "q_attention_01",
+          "question": "What is the mathematical formula for Scaled Dot-Product Attention in the Transformer model?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 467.193
+        },
+        {
+          "id": "q_attention_02",
+          "question": "Where was the paper Attention Is All You Need published or presented?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_12",
+            "attention_all_you_need:chunk_13",
+            "attention_all_you_need:chunk_6"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 475.964
+        },
+        {
+          "id": "q_attention_03",
+          "question": "What is the inner-layer dimensionality and activation function of the feed-forward networks in the Transformer?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_10",
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 475.151
+        },
+        {
+          "id": "q_attention_04",
+          "question": "How does the sequential nature of recurrent neural networks limit training parallelization?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_12",
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_3",
+            "attention_all_you_need:chunk_13",
+            "attention_all_you_need:chunk_8"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_2"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.5,
+          "latency_ms": 493.034
+        },
+        {
+          "id": "q_attention_05",
+          "question": "How does the Transformer handle residual connections and layer normalization in its encoder layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 510.325
+        },
+        {
+          "id": "q_attention_06",
+          "question": "What is the maximum path length and complexity comparison between self-attention layers and recurrent layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_8",
+            "attention_all_you_need:chunk_12",
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_13"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 479.614
+        },
+        {
+          "id": "q_attention_07",
+          "question": "Does multi-head attention allow the model to jointly attend to different representation subspaces?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_14",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_8"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 636.759
+        },
+        {
+          "id": "q_rag_01",
+          "question": "What is the mathematical formulation of the RAG-Sequence model probability calculation?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_9",
+            "retrieval_augmented_generation:chunk_11"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.5,
+          "latency_ms": 479.23
+        },
+        {
+          "id": "q_rag_02",
+          "question": "Is the RAG retriever component based on the bi-encoder architecture from DPR?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_4",
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_15"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.5,
+          "latency_ms": 1024.577
+        },
+        {
+          "id": "q_rag_03",
+          "question": "How is the Wikipedia knowledge source chunked and indexed in RAG using FAISS and MIPS?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_12",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_16",
+            "retrieval_augmented_generation:chunk_13"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 449.057
+        },
+        {
+          "id": "q_rag_04",
+          "question": "How are the generator and retriever components trained end-to-end without document-level supervision?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 473.968
+        },
+        {
+          "id": "q_rag_05",
+          "question": "What metrics are used in human evaluations to assess Jeopardy question generation quality?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7",
+            "retrieval_augmented_generation:chunk_9",
+            "retrieval_augmented_generation:chunk_13",
+            "retrieval_augmented_generation:chunk_17",
+            "retrieval_augmented_generation:chunk_19"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 488.305
+        },
+        {
+          "id": "q_rag_06",
+          "question": "What is the difference between Thorough Decoding and Fast Decoding in RAG-Sequence?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "attention_all_you_need:chunk_3",
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_11"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 485.824
+        },
+        {
+          "id": "q_rag_07",
+          "question": "Was BART pre-trained using a denoising objective and what is its role in RAG?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_5",
+            "dense_passage_retrieval:chunk_18",
+            "retrieval_augmented_generation:chunk_14",
+            "retrieval_augmented_generation:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 474.027
+        },
+        {
+          "id": "q_dpr_01",
+          "question": "What is the dual-encoder dot product similarity function used in Dense Passage Retrieval?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_21"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 509.096
+        },
+        {
+          "id": "q_dpr_02",
+          "question": "What are some example factoid questions used to describe open-domain QA in DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_7",
+            "dense_passage_retrieval:chunk_14",
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_12"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.25,
+          "latency_ms": 509.56
+        },
+        {
+          "id": "q_dpr_03",
+          "question": "What is the negative log likelihood loss function optimized for DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_21",
+            "dense_passage_retrieval:chunk_11",
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.3333,
+          "latency_ms": 467.923
+        },
+        {
+          "id": "q_dpr_04",
+          "question": "How does dense passage retrieval resolve semantic synonym matches like bad guy and villain?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_12",
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_9"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.5,
+          "latency_ms": 480.073
+        },
+        {
+          "id": "q_dpr_05",
+          "question": "What are the three different types of negatives considered for training the DPR retriever?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_7",
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_11",
+            "dense_passage_retrieval:chunk_21"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.3333,
+          "latency_ms": 466.575
+        },
+        {
+          "id": "q_dpr_06",
+          "question": "Why does ORQA suffer from computationally intensive ICT pretraining and suboptimal representations?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_2",
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_19",
+            "dense_passage_retrieval:chunk_17",
+            "dense_passage_retrieval:chunk_1"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.5,
+          "latency_ms": 496.782
+        }
+      ]
+    },
+    "bm25_only": {
+      "num_queries": 20,
+      "k": 5,
+      "metrics": {
+        "precision@5": 0.19,
+        "recall@5": 0.95,
+        "mrr": 0.95,
+        "avg_latency_ms": 0.427,
+        "median_latency_ms": 0.378
+      },
+      "per_query": [
+        {
+          "id": "q_attention_01",
+          "question": "What is the mathematical formula for Scaled Dot-Product Attention in the Transformer model?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_10",
+            "attention_all_you_need:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.831
+        },
+        {
+          "id": "q_attention_02",
+          "question": "Where was the paper Attention Is All You Need published or presented?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_1",
+            "retrieval_augmented_generation:chunk_11",
+            "dense_passage_retrieval:chunk_7",
+            "attention_all_you_need:chunk_6",
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.546
+        },
+        {
+          "id": "q_attention_03",
+          "question": "What is the inner-layer dimensionality and activation function of the feed-forward networks in the Transformer?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_8",
+            "attention_all_you_need:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.473
+        },
+        {
+          "id": "q_attention_04",
+          "question": "How does the sequential nature of recurrent neural networks limit training parallelization?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_12",
+            "retrieval_augmented_generation:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_2"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.376
+        },
+        {
+          "id": "q_attention_05",
+          "question": "How does the Transformer handle residual connections and layer normalization in its encoder layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_9",
+            "attention_all_you_need:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.482
+        },
+        {
+          "id": "q_attention_06",
+          "question": "What is the maximum path length and complexity comparison between self-attention layers and recurrent layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_8",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_4"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.521
+        },
+        {
+          "id": "q_attention_07",
+          "question": "Does multi-head attention allow the model to jointly attend to different representation subspaces?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.609
+        },
+        {
+          "id": "q_rag_01",
+          "question": "What is the mathematical formulation of the RAG-Sequence model probability calculation?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_11",
+            "attention_all_you_need:chunk_14",
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.4
+        },
+        {
+          "id": "q_rag_02",
+          "question": "Is the RAG retriever component based on the bi-encoder architecture from DPR?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_14",
+            "dense_passage_retrieval:chunk_3",
+            "retrieval_augmented_generation:chunk_9",
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.375
+        },
+        {
+          "id": "q_rag_03",
+          "question": "How is the Wikipedia knowledge source chunked and indexed in RAG using FAISS and MIPS?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_2",
+            "dense_passage_retrieval:chunk_5",
+            "retrieval_augmented_generation:chunk_7",
+            "dense_passage_retrieval:chunk_12"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.411
+        },
+        {
+          "id": "q_rag_04",
+          "question": "How are the generator and retriever components trained end-to-end without document-level supervision?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_14",
+            "retrieval_augmented_generation:chunk_9",
+            "dense_passage_retrieval:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.417
+        },
+        {
+          "id": "q_rag_05",
+          "question": "What metrics are used in human evaluations to assess Jeopardy question generation quality?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7",
+            "retrieval_augmented_generation:chunk_11",
+            "retrieval_augmented_generation:chunk_9",
+            "attention_all_you_need:chunk_10",
+            "retrieval_augmented_generation:chunk_13"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.368
+        },
+        {
+          "id": "q_rag_06",
+          "question": "What is the difference between Thorough Decoding and Fast Decoding in RAG-Sequence?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_11",
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_9",
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.322
+        },
+        {
+          "id": "q_rag_07",
+          "question": "Was BART pre-trained using a denoising objective and what is its role in RAG?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_14",
+            "retrieval_augmented_generation:chunk_15",
+            "retrieval_augmented_generation:chunk_11",
+            "attention_all_you_need:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.368
+        },
+        {
+          "id": "q_dpr_01",
+          "question": "What is the dual-encoder dot product similarity function used in Dense Passage Retrieval?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "attention_all_you_need:chunk_5",
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_21"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.355
+        },
+        {
+          "id": "q_dpr_02",
+          "question": "What are some example factoid questions used to describe open-domain QA in DPR?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_7",
+            "attention_all_you_need:chunk_14",
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.0,
+          "recall@5": 0.0,
+          "reciprocal_rank": 0.0,
+          "latency_ms": 0.37
+        },
+        {
+          "id": "q_dpr_03",
+          "question": "What is the negative log likelihood loss function optimized for DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_21",
+            "dense_passage_retrieval:chunk_10",
+            "retrieval_augmented_generation:chunk_5",
+            "dense_passage_retrieval:chunk_12"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.285
+        },
+        {
+          "id": "q_dpr_04",
+          "question": "How does dense passage retrieval resolve semantic synonym matches like bad guy and villain?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_14",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_12"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.38
+        },
+        {
+          "id": "q_dpr_05",
+          "question": "What are the three different types of negatives considered for training the DPR retriever?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "retrieval_augmented_generation:chunk_11",
+            "attention_all_you_need:chunk_14",
+            "attention_all_you_need:chunk_7",
+            "dense_passage_retrieval:chunk_10"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.34
+        },
+        {
+          "id": "q_dpr_06",
+          "question": "Why does ORQA suffer from computationally intensive ICT pretraining and suboptimal representations?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_14",
+            "dense_passage_retrieval:chunk_15",
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 0.31
+        }
+      ]
+    },
+    "hybrid_rrf": {
+      "num_queries": 20,
+      "k": 5,
+      "metrics": {
+        "precision@5": 0.2,
+        "recall@5": 1.0,
+        "mrr": 0.935,
+        "avg_latency_ms": 492.994,
+        "median_latency_ms": 478.096
+      },
+      "per_query": [
+        {
+          "id": "q_attention_01",
+          "question": "What is the mathematical formula for Scaled Dot-Product Attention in the Transformer model?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_7"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 465.075
+        },
+        {
+          "id": "q_attention_02",
+          "question": "Where was the paper Attention Is All You Need published or presented?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_2",
+            "retrieval_augmented_generation:chunk_11",
+            "attention_all_you_need:chunk_12"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 744.992
+        },
+        {
+          "id": "q_attention_03",
+          "question": "What is the inner-layer dimensionality and activation function of the feed-forward networks in the Transformer?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_10"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 538.261
+        },
+        {
+          "id": "q_attention_04",
+          "question": "How does the sequential nature of recurrent neural networks limit training parallelization?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_12",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_3",
+            "attention_all_you_need:chunk_11"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_2"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 476.12
+        },
+        {
+          "id": "q_attention_05",
+          "question": "How does the Transformer handle residual connections and layer normalization in its encoder layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 469.303
+        },
+        {
+          "id": "q_attention_06",
+          "question": "What is the maximum path length and complexity comparison between self-attention layers and recurrent layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_8",
+            "attention_all_you_need:chunk_12",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 537.056
+        },
+        {
+          "id": "q_attention_07",
+          "question": "Does multi-head attention allow the model to jointly attend to different representation subspaces?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 502.915
+        },
+        {
+          "id": "q_rag_01",
+          "question": "What is the mathematical formulation of the RAG-Sequence model probability calculation?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_11",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_9"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 486.899
+        },
+        {
+          "id": "q_rag_02",
+          "question": "Is the RAG retriever component based on the bi-encoder architecture from DPR?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "dense_passage_retrieval:chunk_3",
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_14",
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 464.519
+        },
+        {
+          "id": "q_rag_03",
+          "question": "How is the Wikipedia knowledge source chunked and indexed in RAG using FAISS and MIPS?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_12",
+            "dense_passage_retrieval:chunk_5",
+            "retrieval_augmented_generation:chunk_16"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 500.275
+        },
+        {
+          "id": "q_rag_04",
+          "question": "How are the generator and retriever components trained end-to-end without document-level supervision?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 464.781
+        },
+        {
+          "id": "q_rag_05",
+          "question": "What metrics are used in human evaluations to assess Jeopardy question generation quality?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7",
+            "retrieval_augmented_generation:chunk_9",
+            "retrieval_augmented_generation:chunk_13",
+            "retrieval_augmented_generation:chunk_11",
+            "retrieval_augmented_generation:chunk_17"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 481.467
+        },
+        {
+          "id": "q_rag_06",
+          "question": "What is the difference between Thorough Decoding and Fast Decoding in RAG-Sequence?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_11",
+            "attention_all_you_need:chunk_3",
+            "retrieval_augmented_generation:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 480.343
+        },
+        {
+          "id": "q_rag_07",
+          "question": "Was BART pre-trained using a denoising objective and what is its role in RAG?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_14",
+            "retrieval_augmented_generation:chunk_5",
+            "dense_passage_retrieval:chunk_18",
+            "retrieval_augmented_generation:chunk_15"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 494.375
+        },
+        {
+          "id": "q_dpr_01",
+          "question": "What is the dual-encoder dot product similarity function used in Dense Passage Retrieval?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_21",
+            "attention_all_you_need:chunk_5",
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 480.072
+        },
+        {
+          "id": "q_dpr_02",
+          "question": "What are some example factoid questions used to describe open-domain QA in DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_7",
+            "retrieval_augmented_generation:chunk_7",
+            "dense_passage_retrieval:chunk_14",
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.2,
+          "latency_ms": 470.399
+        },
+        {
+          "id": "q_dpr_03",
+          "question": "What is the negative log likelihood loss function optimized for DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_21",
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_11",
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.5,
+          "latency_ms": 458.951
+        },
+        {
+          "id": "q_dpr_04",
+          "question": "How does dense passage retrieval resolve semantic synonym matches like bad guy and villain?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_12",
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_14",
+            "dense_passage_retrieval:chunk_15"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 472.479
+        },
+        {
+          "id": "q_dpr_05",
+          "question": "What are the three different types of negatives considered for training the DPR retriever?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_7",
+            "retrieval_augmented_generation:chunk_11",
+            "attention_all_you_need:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 434.704
+        },
+        {
+          "id": "q_dpr_06",
+          "question": "Why does ORQA suffer from computationally intensive ICT pretraining and suboptimal representations?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_2",
+            "dense_passage_retrieval:chunk_19",
+            "dense_passage_retrieval:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 436.887
+        }
+      ]
+    },
+    "hybrid_reranked": {
+      "num_queries": 20,
+      "k": 5,
+      "metrics": {
+        "precision@5": 0.16,
+        "recall@5": 0.8,
+        "mrr": 0.6492,
+        "avg_latency_ms": 2968.426,
+        "median_latency_ms": 2449.295
+      },
+      "per_query": [
+        {
+          "id": "q_attention_01",
+          "question": "What is the mathematical formula for Scaled Dot-Product Attention in the Transformer model?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_10",
+            "attention_all_you_need:chunk_4"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 13140.461
+        },
+        {
+          "id": "q_attention_02",
+          "question": "Where was the paper Attention Is All You Need published or presented?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_8",
+            "attention_all_you_need:chunk_14",
+            "attention_all_you_need:chunk_5"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2680.37
+        },
+        {
+          "id": "q_attention_03",
+          "question": "What is the inner-layer dimensionality and activation function of the feed-forward networks in the Transformer?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_5",
+            "dense_passage_retrieval:chunk_5",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.0,
+          "recall@5": 0.0,
+          "reciprocal_rank": 0.0,
+          "latency_ms": 2481.799
+        },
+        {
+          "id": "q_attention_04",
+          "question": "How does the sequential nature of recurrent neural networks limit training parallelization?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_2",
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_12",
+            "attention_all_you_need:chunk_13"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_2"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2527.227
+        },
+        {
+          "id": "q_attention_05",
+          "question": "How does the Transformer handle residual connections and layer normalization in its encoder layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_9",
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2521.514
+        },
+        {
+          "id": "q_attention_06",
+          "question": "What is the maximum path length and complexity comparison between self-attention layers and recurrent layers?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_7",
+            "attention_all_you_need:chunk_8",
+            "attention_all_you_need:chunk_11",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_6"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2407.27
+        },
+        {
+          "id": "q_attention_07",
+          "question": "Does multi-head attention allow the model to jointly attend to different representation subspaces?",
+          "retrieved_chunk_ids": [
+            "attention_all_you_need:chunk_6",
+            "attention_all_you_need:chunk_1",
+            "attention_all_you_need:chunk_4",
+            "attention_all_you_need:chunk_5",
+            "attention_all_you_need:chunk_8"
+          ],
+          "relevant_chunk_ids": [
+            "attention_all_you_need:chunk_6"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2355.824
+        },
+        {
+          "id": "q_rag_01",
+          "question": "What is the mathematical formulation of the RAG-Sequence model probability calculation?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_1",
+            "retrieval_augmented_generation:chunk_6"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2306.243
+        },
+        {
+          "id": "q_rag_02",
+          "question": "Is the RAG retriever component based on the bi-encoder architecture from DPR?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_4",
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_9"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.3333,
+          "latency_ms": 2300.302
+        },
+        {
+          "id": "q_rag_03",
+          "question": "How is the Wikipedia knowledge source chunked and indexed in RAG using FAISS and MIPS?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_12",
+            "retrieval_augmented_generation:chunk_1",
+            "retrieval_augmented_generation:chunk_16",
+            "retrieval_augmented_generation:chunk_7",
+            "retrieval_augmented_generation:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.0,
+          "recall@5": 0.0,
+          "reciprocal_rank": 0.0,
+          "latency_ms": 2346.892
+        },
+        {
+          "id": "q_rag_04",
+          "question": "How are the generator and retriever components trained end-to-end without document-level supervision?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2462.498
+        },
+        {
+          "id": "q_rag_05",
+          "question": "What metrics are used in human evaluations to assess Jeopardy question generation quality?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7",
+            "retrieval_augmented_generation:chunk_13",
+            "retrieval_augmented_generation:chunk_2",
+            "retrieval_augmented_generation:chunk_9",
+            "dense_passage_retrieval:chunk_10"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_7"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2277.222
+        },
+        {
+          "id": "q_rag_06",
+          "question": "What is the difference between Thorough Decoding and Fast Decoding in RAG-Sequence?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_4",
+            "retrieval_augmented_generation:chunk_8",
+            "retrieval_augmented_generation:chunk_3",
+            "retrieval_augmented_generation:chunk_2"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2364.033
+        },
+        {
+          "id": "q_rag_07",
+          "question": "Was BART pre-trained using a denoising objective and what is its role in RAG?",
+          "retrieved_chunk_ids": [
+            "retrieval_augmented_generation:chunk_15",
+            "retrieval_augmented_generation:chunk_12",
+            "retrieval_augmented_generation:chunk_5",
+            "retrieval_augmented_generation:chunk_19",
+            "retrieval_augmented_generation:chunk_1"
+          ],
+          "relevant_chunk_ids": [
+            "retrieval_augmented_generation:chunk_4"
+          ],
+          "precision@5": 0.0,
+          "recall@5": 0.0,
+          "reciprocal_rank": 0.0,
+          "latency_ms": 2384.454
+        },
+        {
+          "id": "q_dpr_01",
+          "question": "What is the dual-encoder dot product similarity function used in Dense Passage Retrieval?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_5",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_4",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2452.582
+        },
+        {
+          "id": "q_dpr_02",
+          "question": "What are some example factoid questions used to describe open-domain QA in DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_1",
+            "retrieval_augmented_generation:chunk_7",
+            "dense_passage_retrieval:chunk_12",
+            "retrieval_augmented_generation:chunk_9",
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.2,
+          "latency_ms": 2504.151
+        },
+        {
+          "id": "q_dpr_03",
+          "question": "What is the negative log likelihood loss function optimized for DPR?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_21",
+            "dense_passage_retrieval:chunk_11",
+            "retrieval_augmented_generation:chunk_5",
+            "dense_passage_retrieval:chunk_9",
+            "dense_passage_retrieval:chunk_4"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.0,
+          "recall@5": 0.0,
+          "reciprocal_rank": 0.0,
+          "latency_ms": 2496.543
+        },
+        {
+          "id": "q_dpr_04",
+          "question": "How does dense passage retrieval resolve semantic synonym matches like bad guy and villain?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_4",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_12",
+            "dense_passage_retrieval:chunk_1",
+            "dense_passage_retrieval:chunk_8"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_1"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.25,
+          "latency_ms": 2509.613
+        },
+        {
+          "id": "q_dpr_05",
+          "question": "What are the three different types of negatives considered for training the DPR retriever?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_9",
+            "dense_passage_retrieval:chunk_10",
+            "dense_passage_retrieval:chunk_8",
+            "dense_passage_retrieval:chunk_21",
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_5"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 0.2,
+          "latency_ms": 2446.008
+        },
+        {
+          "id": "q_dpr_06",
+          "question": "Why does ORQA suffer from computationally intensive ICT pretraining and suboptimal representations?",
+          "retrieved_chunk_ids": [
+            "dense_passage_retrieval:chunk_3",
+            "dense_passage_retrieval:chunk_2",
+            "dense_passage_retrieval:chunk_15",
+            "dense_passage_retrieval:chunk_14",
+            "retrieval_augmented_generation:chunk_14"
+          ],
+          "relevant_chunk_ids": [
+            "dense_passage_retrieval:chunk_3"
+          ],
+          "precision@5": 0.2,
+          "recall@5": 1.0,
+          "reciprocal_rank": 1.0,
+          "latency_ms": 2403.511
+        }
+      ]
+    }
+  }
+}

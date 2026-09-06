@@ -1,52 +1,46 @@
 # ScholarAI Retrieval Benchmark Experiments
 
-This document records the evaluation benchmark experiments conducted for the ScholarAI Hybrid Retrieval System across standard research paper PDFs (`attention_all_you_need`, `dense_passage_retrieval`, `retrieval_augmented_generation`) evaluated against the 20-query ground-truth dataset (`data/evaluation/evaluation_set.json`).
+This document records the evaluation benchmark experiments and controlled ablation studies conducted for the ScholarAI Retrieval System across standard research paper PDFs (`attention_all_you_need`, `dense_passage_retrieval`, `retrieval_augmented_generation`) evaluated against the 20-query ground-truth dataset (`data/evaluation/evaluation_set.json`).
 
 ---
 
-## 📊 Benchmark Experiments Summary Table
+## 📊 Consolidated M6.2–M6.5 Retrieval Benchmark & Ablation Study
 
-| Milestone | Strategy / Retriever | Precision@5 | Recall@5 | MRR | Avg Latency (ms) | Median Latency (ms) |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **M6.2** | Dense Vector Only (FAISS) | `0.2000` | `1.0000` | `0.7708` | 454.27 | 455.42 |
-| **M6.3** | Hybrid Retrieval (FAISS + BM25 RRF) | **`0.2000`** | **`1.0000`** | **`0.9350`** | 464.67 | 458.36 |
-| **M6.4** | Cross-Encoder Reranked (RRF Top-20 → Cross-Encoder Top-5) | `0.1600` | `0.8000` | `0.6492` | 3227.91 | 2519.69 |
-
----
-
-## 🔬 Detailed Experiment Findings & Analysis
-
-### 1. Milestone 6.2 — FAISS Baseline Benchmark
-- **Retriever:** FAISS dense vector store using Gemini embeddings (`models/gemini-embedding-001`).
-- **Precision@5:** `0.2000`
-- **Recall@5:** `1.0000`
-- **MRR:** `0.7708`
-- **Avg Latency:** `454.27 ms`
-- **Key Observation:** FAISS dense embeddings achieved 100% recall@5, successfully retrieving the ground-truth chunk in the top-5 results for all queries. However, for queries requiring exact term matching (e.g. mathematical formulas, precise paper titles, specific abbreviations), FAISS sometimes ranked the relevant chunk at rank 2–4 rather than rank 1, resulting in an MRR of 0.7708.
+| Strategy / Retriever Pipeline | Precision@5 | Recall@5 | MRR | Avg Latency (ms) | Median Latency (ms) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **1. FAISS-only (Dense Vector)** | `0.2000` | **`1.0000`** | `0.7708` | `517.15` | `479.84` |
+| **2. BM25-only (Sparse Keyword)** | `0.1900` | `0.9500` | **`0.9500`** | **`0.43`** | **`0.38`** |
+| **3. Hybrid RRF (FAISS + BM25)** | **`0.2000`** | **`1.0000`** | **`0.9350`** | `492.99` | `478.10` |
+| **4. Hybrid + Cross-Encoder Reranked** | `0.1600` | `0.8000` | `0.6492` | `2968.43` | `2449.30` |
 
 ---
 
-### 2. Milestone 6.3 — Hybrid Retrieval Benchmark (FAISS + BM25 RRF)
-- **Retriever:** Reciprocal Rank Fusion (RRF with $k=60$) combining FAISS dense retrieval and BM25 sparse keyword retrieval.
-- **Precision@5:** `0.2000`
-- **Recall@5:** `1.0000`
-- **MRR:** **`0.9350`** *(+21.3% relative improvement over FAISS baseline)*
-- **Avg Latency:** `464.67 ms`
-- **Key Observation:** Fusing BM25 sparse keyword scores with FAISS dense vector scores via Reciprocal Rank Fusion significantly improved ranking quality. Exact keyword matches (such as "Scaled Dot-Product Attention", "ORQA", "NIPS 2017") received strong BM25 rank boosts that pushed the true relevant chunk directly to **Rank 1** for almost all queries, increasing MRR from `0.7708` to `0.9350` with minimal latency overhead (+10.4 ms).
+## 🔬 Component Contribution Analysis (Retrieval Quality vs Latency)
+
+### 1. BM25 Sparse Keyword Retrieval — Highest Impact on MRR & Speed
+- **MRR Impact:** Boosts Mean Reciprocal Rank from `0.7708` to `0.9500` when evaluated standalone. Exact lexical matching excels at placing exact formula tokens (e.g. `Attention(Q, K, V)`), author lists, and acronyms (`ORQA`, `NIPS 2017`) directly at **Rank 1**.
+- **Latency Impact:** Sub-millisecond execution (`0.43 ms` avg). BM25 provides maximum ranking speed with zero API overhead.
+- **Limitation:** Fails on semantic paraphrasing where exact query keywords are absent from the chunk text, dropping Recall@5 to `0.9500`.
+
+### 2. FAISS Dense Vector Retrieval — Highest Impact on Recall
+- **Recall Impact:** Achieves **1.0000 Recall@5**, ensuring that 100% of ground-truth relevant chunks are captured within the top-5 retrieved results even when queries use alternative phrasing.
+- **MRR Impact:** `0.7708`. Dense embeddings capture overall semantic context but occasionally rank surrounding narrative chunks slightly above exact formula snippets.
+- **Latency Impact:** Requires embedding generation (~`450–500 ms`).
+
+### 3. Hybrid RRF (FAISS + BM25) — Optimal Balanced Strategy for ScholarAI
+- **Performance:** Combines the **1.0000 Recall@5** of FAISS with the high **0.9350 MRR** of BM25.
+- **Tradeoff Analysis:** By fusing sparse and dense rankings via Reciprocal Rank Fusion ($k=60$), Hybrid RRF ensures zero semantic recall loss while pushing exact formula/citation matches to Rank 1.
+- **Latency:** ~`493 ms` total per query.
+
+### 4. Cross-Encoder Reranking — Heavy Latency Overhead with Lower Formula Precision
+- **Performance:** Precision@5 drops to `0.1600`, Recall@5 to `0.8000`, and MRR to `0.6492`.
+- **Latency Impact:** Increases per-query latency by **~6x** (up to `2968 ms` avg).
+- **Tradeoff Analysis:** Pretrained open-web Cross-Encoder models (`ms-marco-MiniLM-L-6-v2`) prioritize generic conversational relevance over specialized scientific latex syntax, making them unsuited for raw technical paper reranking compared to Hybrid RRF.
 
 ---
 
-### 3. Milestone 6.4 — Cross-Encoder Reranking Benchmark
-- **Retriever:** Hybrid RRF candidate retrieval ($k=20$) followed by SentenceTransformers `cross-encoder/ms-marco-MiniLM-L-6-v2` reranking ($k=5$).
-- **Precision@5:** `0.1600`
-- **Recall@5:** `0.8000`
-- **MRR:** `0.6492`
-- **Avg Latency:** `3227.91 ms` *(Median: 2519.69 ms)*
-- **Key Observation:** While generic Cross-Encoder rerankers excel at general domain open-web QA, on highly specialized scientific research paper chunks (containing complex latex formulas, paper citations, and specialized terminology), the general-purpose Cross-Encoder model occasionally ranked noisy narrative chunks higher than concise formula chunks. Furthermore, neural pair scoring increased per-query latency by ~7x (from ~464 ms to ~3227 ms). Consequently, **Hybrid Retrieval (M6.3)** offers the highest accuracy and best latency profile for ScholarAI.
-
----
-
-## 📁 Result Files Artifacts
+## 📁 Result File Artifacts
 - **M6.2 FAISS Baseline Results:** [data/evaluation/results/faiss_baseline.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/faiss_baseline.json)
 - **M6.3 Hybrid Benchmark Results:** [data/evaluation/results/hybrid_benchmark.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/hybrid_benchmark.json)
 - **M6.4 Reranking Benchmark Results:** [data/evaluation/results/reranking_benchmark.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/reranking_benchmark.json)
+- **M6.5 Ablation Study Results:** [data/evaluation/results/ablation_study.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/ablation_study.json)
