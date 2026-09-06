@@ -1,6 +1,6 @@
 """Unit tests for Retrieval Metrics Dashboard data handling functions.
 
-Tests loading JSON result files live from disk and formatting stage comparison metrics.
+Tests loading JSON result files live from disk and formatting metrics.
 """
 
 import json
@@ -34,7 +34,8 @@ class TestMetricsDashboard(unittest.TestCase):
             self.assertEqual(result["metrics"]["precision@5"], 0.2)
 
     def test_load_single_result_nonexistent(self):
-        result = load_single_result("non_existent_directory/non_existent_file.json")
+        path = os.path.join("non_existent_dir", "file.json")
+        result = load_single_result(path)
         self.assertIsNone(result)
 
     def test_load_single_result_invalid_json(self):
@@ -48,14 +49,32 @@ class TestMetricsDashboard(unittest.TestCase):
 
     def test_load_evaluation_results(self):
         with tempfile.TemporaryDirectory() as temp_dir:
+            dummy_m = {
+                "metrics": {
+                    "precision@5": 0.2,
+                    "recall@5": 1.0,
+                    "mrr": 0.77,
+                    "avg_latency_ms": 500.0,
+                    "median_latency_ms": 480.0,
+                }
+            }
             files_to_create = {
-                "faiss_baseline.json": {"metrics": {"precision@5": 0.2, "recall@5": 1.0, "mrr": 0.77, "avg_latency_ms": 500.0, "median_latency_ms": 480.0}},
-                "hybrid_benchmark.json": {"metrics": {"precision@5": 0.2, "recall@5": 1.0, "mrr": 0.93, "avg_latency_ms": 490.0, "median_latency_ms": 470.0}},
-                "reranking_benchmark.json": {"metrics": {"precision@5": 0.16, "recall@5": 0.8, "mrr": 0.65, "avg_latency_ms": 2900.0, "median_latency_ms": 2800.0}},
+                "faiss_baseline.json": dummy_m,
+                "hybrid_benchmark.json": {
+                    "metrics": {
+                        "precision@5": 0.2,
+                        "recall@5": 1.0,
+                        "mrr": 0.93,
+                        "avg_latency_ms": 490.0,
+                        "median_latency_ms": 470.0,
+                    }
+                },
+                "reranking_benchmark.json": dummy_m,
                 "ablation_study.json": {"comparison_matrix": {}},
             }
             for name, content in files_to_create.items():
-                with open(os.path.join(temp_dir, name), "w", encoding="utf-8") as f:
+                p = os.path.join(temp_dir, name)
+                with open(p, "w", encoding="utf-8") as f:
                     json.dump(content, f)
 
             results = load_evaluation_results(results_dir=temp_dir)
@@ -64,7 +83,8 @@ class TestMetricsDashboard(unittest.TestCase):
             self.assertIn("reranking_benchmark", results)
             self.assertIn("ablation_study", results)
             self.assertIsNotNone(results["faiss_baseline"])
-            self.assertEqual(results["hybrid_benchmark"]["metrics"]["mrr"], 0.93)
+            h_res = results["hybrid_benchmark"]
+            self.assertEqual(h_res["metrics"]["mrr"], 0.93)
 
     def test_get_stage_comparison_data(self):
         mock_results = {

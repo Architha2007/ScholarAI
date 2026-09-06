@@ -139,9 +139,8 @@ def render_metrics_dashboard(
                 "Hybrid MRR", f"{h_m.get('mrr', 0.0):.4f}", delta=mrr_delta_str
             )
         with col3:
-            st.metric(
-                "Hybrid Avg Latency", f"{h_m.get('avg_latency_ms', 0.0):.1f} ms"
-            )
+            avg_lat = h_m.get("avg_latency_ms", 0.0)
+            st.metric("Hybrid Avg Latency", f"{avg_lat:.1f} ms")
         with col4:
             st.metric(
                 "Queries Evaluated", f"{hybrid_data.get('num_queries', 0)}"
@@ -226,12 +225,16 @@ def render_metrics_dashboard(
 
         with st.expander("💡 Ablation Study Insights & Key Takeaways"):
             st.markdown(
-                """
-                - **BM25 Keyword Retrieval:** Highest MRR (`0.9500`) on exact formula queries at sub-millisecond speed (`0.43 ms`).
-                - **FAISS Dense Retrieval:** Provides 100% **Recall@5 (`1.0000`)**, capturing semantic paraphrases.
-                - **Hybrid RRF (FAISS + BM25):** Combines 1.0000 Recall with 0.9350 MRR at negligible overhead (~493 ms), serving as optimal production strategy.
-                - **Cross-Encoder Reranking:** Adds heavy latency (~2.9s) while open-web weights offer lower precision on scientific formulas.
-                """
+                "- **BM25 Keyword Retrieval:** Highest MRR (`0.9500`) on exact"
+                " formula queries at sub-millisecond speed (`0.43 ms`).\n"
+                "- **FAISS Dense Retrieval:** Provides 100% **Recall@5"
+                " (`1.0000`)**, capturing semantic paraphrases.\n"
+                "- **Hybrid RRF (FAISS + BM25):** Combines 1.0000 Recall with"
+                " 0.9350 MRR at negligible overhead (~493 ms), serving as"
+                " optimal production strategy.\n"
+                "- **Cross-Encoder Reranking:** Adds heavy latency (~2.9s)"
+                " while open-web weights offer lower precision on scientific"
+                " formulas."
             )
     else:
         st.warning("Ablation study results not found.")
