@@ -5,8 +5,9 @@ import streamlit as st
 from src.chat.state import reset_paper_state
 from src.chat.ui import handle_chat_input, show_chat_with_paper
 from src.config.settings import APP_MODEL, INDEXING_CHAR_LIMIT, MAX_ANALYSIS_CHARS
-from src.ingestion.pdf import extract_pdf_details
+from src.dashboard.metrics_dashboard import render_metrics_dashboard
 from src.generation.summarizer import analyze_research_paper
+from src.ingestion.pdf import extract_pdf_details
 from src.preprocessing.chunking import create_text_chunks
 from src.preprocessing.text import get_text_processing_stats, trim_text_for_analysis
 from src.retrieval.vector_store import build_vector_store_from_chunks
@@ -101,6 +102,16 @@ with st.sidebar:
         "</p>",
         unsafe_allow_html=True,
     )
+    st.divider()
+
+    st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
+    st.markdown("### 🧭 Navigation")
+    selected_page = st.radio(
+        "Select View",
+        ["🔬 RAG Chat & Paper Analysis", "📊 Retrieval Metrics Dashboard"],
+        key="app_navigation",
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
     st.divider()
 
     st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
@@ -395,13 +406,18 @@ def show_analysis_results(analysis: dict) -> None:
             st.markdown(f"{index}. {idea}")
 
 
-handle_chat_input()
+if selected_page == "📊 Retrieval Metrics Dashboard":
+    render_metrics_dashboard()
+else:
+    handle_chat_input()
 
-
-# ---------------------------------------------------------------------------
-# Main page — title, upload, analysis, and chat.
-# ---------------------------------------------------------------------------
-st.markdown('<p class="hero-title">🔬 ScholarAI Research Assistant</p>', unsafe_allow_html=True)
+    # ---------------------------------------------------------------------------
+    # Main page — title, upload, analysis, and chat.
+    # ---------------------------------------------------------------------------
+    st.markdown(
+        '<p class="hero-title">🔬 ScholarAI Research Assistant</p>',
+        unsafe_allow_html=True,
+    )
 st.markdown(
     '<p class="hero-subtitle">'
     "Upload a research paper PDF to get an AI-powered analysis, "
