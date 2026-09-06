@@ -5,8 +5,8 @@
     "precision@5": 0.16,
     "recall@5": 0.8,
     "mrr": 0.6492,
-    "avg_latency_ms": 3227.91,
-    "median_latency_ms": 2519.694
+    "avg_latency_ms": 3040.797,
+    "median_latency_ms": 2422.256
   },
   "per_query": [
     {
@@ -25,7 +25,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 11947.583
+      "latency_ms": 13896.916
     },
     {
       "id": "q_attention_02",
@@ -43,7 +43,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2643.518
+      "latency_ms": 2609.776
     },
     {
       "id": "q_attention_03",
@@ -61,7 +61,7 @@
       "precision@5": 0.0,
       "recall@5": 0.0,
       "reciprocal_rank": 0.0,
-      "latency_ms": 2534.336
+      "latency_ms": 2419.182
     },
     {
       "id": "q_attention_04",
@@ -79,7 +79,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2443.107
+      "latency_ms": 2312.837
     },
     {
       "id": "q_attention_05",
@@ -97,7 +97,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2348.935
+      "latency_ms": 2296.346
     },
     {
       "id": "q_attention_06",
@@ -115,7 +115,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2485.023
+      "latency_ms": 2309.816
     },
     {
       "id": "q_attention_07",
@@ -133,7 +133,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2417.588
+      "latency_ms": 2421.564
     },
     {
       "id": "q_rag_01",
@@ -151,7 +151,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2689.571
+      "latency_ms": 3216.382
     },
     {
       "id": "q_rag_02",
@@ -169,7 +169,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.3333,
-      "latency_ms": 2536.741
+      "latency_ms": 2475.199
     },
     {
       "id": "q_rag_03",
@@ -187,7 +187,7 @@
       "precision@5": 0.0,
       "recall@5": 0.0,
       "reciprocal_rank": 0.0,
-      "latency_ms": 2455.337
+      "latency_ms": 2392.937
     },
     {
       "id": "q_rag_04",
@@ -205,7 +205,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2368.771
+      "latency_ms": 2418.576
     },
     {
       "id": "q_rag_05",
@@ -223,7 +223,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2484.241
+      "latency_ms": 2338.461
     },
     {
       "id": "q_rag_06",
@@ -241,7 +241,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 7266.263
+      "latency_ms": 2422.948
     },
     {
       "id": "q_rag_07",
@@ -259,7 +259,7 @@
       "precision@5": 0.0,
       "recall@5": 0.0,
       "reciprocal_rank": 0.0,
-      "latency_ms": 2560.077
+      "latency_ms": 2237.548
     },
     {
       "id": "q_dpr_01",
@@ -277,7 +277,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2505.052
+      "latency_ms": 2852.239
     },
     {
       "id": "q_dpr_02",
@@ -295,7 +295,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.2,
-      "latency_ms": 2753.864
+      "latency_ms": 2447.187
     },
     {
       "id": "q_dpr_03",
@@ -313,7 +313,7 @@
       "precision@5": 0.0,
       "recall@5": 0.0,
       "reciprocal_rank": 0.0,
-      "latency_ms": 2589.153
+      "latency_ms": 2494.647
     },
     {
       "id": "q_dpr_04",
@@ -331,7 +331,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.25,
-      "latency_ms": 2467.595
+      "latency_ms": 2307.599
     },
     {
       "id": "q_dpr_05",
@@ -349,7 +349,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 0.2,
-      "latency_ms": 2481.461
+      "latency_ms": 2499.282
     },
     {
       "id": "q_dpr_06",
@@ -367,7 +367,7 @@
       "precision@5": 0.2,
       "recall@5": 1.0,
       "reciprocal_rank": 1.0,
-      "latency_ms": 2579.984
+      "latency_ms": 2446.498
     }
   ]
 }
