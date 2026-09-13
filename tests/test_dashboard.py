@@ -12,6 +12,7 @@ import unittest
 sys.path.insert(0, ".")
 
 from src.dashboard.metrics_dashboard import (  # noqa: E402
+    get_embedding_comparison_data,
     get_stage_comparison_data,
     load_evaluation_results,
     load_single_result,
@@ -144,6 +145,42 @@ class TestMetricsDashboard(unittest.TestCase):
         self.assertEqual(len(stage_rows), 3)
         self.assertIsNone(stage_rows[0]["Precision@5"])
         self.assertIsNone(stage_rows[1]["MRR"])
+
+    def test_get_embedding_comparison_data(self):
+        mock_results = {
+            "embedding_comparison": {
+                "num_queries": 20,
+                "k": 5,
+                "summary_matrix": [
+                    {
+                        "model_id": "models/gemini-embedding-001",
+                        "display_name": "Gemini Embedding 001",
+                        "embedding_dimension": 768,
+                        "embedding_generation_latency_ms": 1200.0,
+                        "precision@5": 0.20,
+                        "recall@5": 1.00,
+                        "mrr": 0.7708,
+                        "avg_latency_ms": 500.0,
+                    },
+                    {
+                        "model_id": "all-MiniLM-L6-v2",
+                        "display_name": "all-MiniLM-L6-v2",
+                        "embedding_dimension": 384,
+                        "embedding_generation_latency_ms": 300.0,
+                        "precision@5": 0.19,
+                        "recall@5": 0.95,
+                        "mrr": 0.7500,
+                        "avg_latency_ms": 40.0,
+                    },
+                ],
+            }
+        }
+        rows = get_embedding_comparison_data(mock_results)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]["Model"], "Gemini Embedding 001")
+        self.assertEqual(rows[0]["Embedding Dimension"], 768)
+        self.assertEqual(rows[1]["Model"], "all-MiniLM-L6-v2")
+        self.assertEqual(rows[1]["Embedding Dimension"], 384)
 
 
 if __name__ == "__main__":

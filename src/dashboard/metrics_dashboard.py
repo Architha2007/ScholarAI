@@ -16,6 +16,7 @@ RESULTS_FILES = {
     "hybrid_benchmark": "hybrid_benchmark.json",
     "reranking_benchmark": "reranking_benchmark.json",
     "ablation_study": "ablation_study.json",
+    "embedding_comparison": "embedding_comparison.json",
 }
 
 
@@ -98,6 +99,64 @@ def get_stage_comparison_data(
         })
 
     return table_rows
+
+
+def get_embedding_comparison_data(
+    results: Dict[str, Optional[Dict[str, Any]]],
+) -> List[Dict[str, Any]]:
+    """Formats summary metrics from Embedding Model Comparison results.
+
+    Args:
+        results: Dictionary containing loaded JSON result objects.
+
+    Returns:
+        List of dictionaries formatted for comparative dataframes/tables.
+    """
+    comp_data = results.get("embedding_comparison")
+    if not comp_data:
+        return []
+
+    matrix = comp_data.get("summary_matrix", [])
+    if matrix:
+        rows = []
+        for item in matrix:
+            k_val = comp_data.get("k", 5)
+            p_val = item.get(f"precision@{k_val}", item.get("precision@5"))
+            r_val = item.get(f"recall@{k_val}", item.get("recall@5"))
+            rows.append({
+                "Model": item.get("display_name", item.get("model_id")),
+                "Embedding Dimension": item.get("embedding_dimension", 0),
+                "Embedding Gen Latency (ms)": item.get(
+                    "embedding_generation_latency_ms", 0.0
+                ),
+                "Precision@5": p_val,
+                "Recall@5": r_val,
+                "MRR": item.get("mrr", 0.0),
+                "Avg Query Latency (ms)": item.get("avg_latency_ms", 0.0),
+            })
+        return rows
+
+    models_dict = comp_data.get("models", {})
+    rows = []
+    for model_id, m_info in models_dict.items():
+        if not isinstance(m_info, dict) or m_info.get("status") == "error":
+            continue
+        m = m_info.get("metrics", {})
+        k_val = comp_data.get("k", 5)
+        p_val = m.get(f"precision@{k_val}", m.get("precision@5"))
+        r_val = m.get(f"recall@{k_val}", m.get("recall@5"))
+        rows.append({
+            "Model": m_info.get("display_name", model_id),
+            "Embedding Dimension": m_info.get("embedding_dimension", 0),
+            "Embedding Gen Latency (ms)": m_info.get(
+                "embedding_generation_latency_ms", 0.0
+            ),
+            "Precision@5": p_val,
+            "Recall@5": r_val,
+            "MRR": m.get("mrr", 0.0),
+            "Avg Query Latency (ms)": m.get("avg_latency_ms", 0.0),
+        })
+    return rows
 
 
 def render_metrics_dashboard(
@@ -292,3 +351,57 @@ def render_metrics_dashboard(
                 "**Top-5 Retrieved Chunk(s):** "
                 f"`{q_info.get('retrieved_chunk_ids')}`"
             )
+
+    st.divider()
+
+    # Embedding Model Comparison Section (M8)
+    st.subheader("🧪 Embedding Model Comparison (Milestone 8)")
+    emb_comp_data = results.get("embedding_comparison")
+
+    if emb_comp_data:
+        emb_rows = get_embedding_comparison_data(results)
+        df_emb = pd.DataFrame(emb_rows)
+
+        if not df_emb.empty:
+            col_q, col_l = st.columns(2)
+
+            with col_q:
+                st.markdown(
+                    "#### 🎯 Accuracy Comparison (Precision@5, Recall@5, MRR)"
+                )
+                chart_q = df_emb.set_index("Model")[
+                    ["Precision@5", "Recall@5", "MRR"]
+                ]
+                st.bar_chart(chart_q)
+
+            with col_l:
+                st.markdown("#### ⚡ Latency Comparison (ms)")
+                chart_l = df_emb.set_index("Model")[
+                    ["Embedding Gen Latency (ms)", "Avg Query Latency (ms)"]
+                ]
+                st.bar_chart(chart_l)
+
+            st.markdown("#### 📐 Embedding Dimension Comparison")
+            chart_dim = df_emb.set_index("Model")[["Embedding Dimension"]]
+            st.bar_chart(chart_dim)
+
+            st.markdown("#### 📋 Raw Embedding Comparison Table")
+            formatted_emb_df = df_emb.style.format(
+                {
+                    "Embedding Dimension": "{:d}",
+                    "Embedding Gen Latency (ms)": "{:.2f}",
+                    "Precision@5": "{:.4f}",
+                    "Recall@5": "{:.4f}",
+                    "MRR": "{:.4f}",
+                    "Avg Query Latency (ms)": "{:.2f}",
+                },
+                na_rep="N/A",
+            )
+            st.dataframe(formatted_emb_df, use_container_width=True)
+        else:
+            st.info("No embedding comparison data rows available.")
+    else:
+        st.warning(
+            "Embedding comparison results (embedding_comparison.json) not "
+            "found."
+        )
