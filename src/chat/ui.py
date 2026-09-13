@@ -127,8 +127,8 @@ def handle_chat_input() -> None:
                         }
                     )
 
-                except Exception as error:
-                    error_message = f"Something went wrong: {error}"
+                except ValueError as error:
+                    error_message = f"Invalid Query: {error}"
                     st.error(error_message)
                     st.session_state.chat_messages.append(
                         {
@@ -137,3 +137,24 @@ def handle_chat_input() -> None:
                             "source_chunks": [],
                         }
                     )
+                except RuntimeError as error:
+                    error_message = str(error)
+                    st.error(error_message)
+                    st.session_state.chat_messages.append(
+                        {
+                            "role": "assistant",
+                            "content": error_message,
+                            "source_chunks": [],
+                        }
+                    )
+                except Exception as error:
+                    error_message = f"An unexpected error occurred: {error}"
+                    st.error(error_message)
+                    st.session_state.chat_messages.append(
+                        {
+                            "role": "assistant",
+                            "content": error_message,
+                            "source_chunks": [],
+                        }
+                    )
+

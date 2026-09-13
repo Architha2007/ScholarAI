@@ -1,21 +1,29 @@
-"""Send paper text to Gemini and get a full research analysis back."""
-
 import json
+import logging
 
 import google.generativeai as genai
 
 from src.config.settings import MAX_ANALYSIS_CHARS
-from src.utils.gemini import get_generative_model
+from src.utils.gemini import call_gemini_with_retry, get_generative_model
+
+logger = logging.getLogger(__name__)
+
 
 
 def analyze_research_paper(text: str) -> dict:
-    """
-    Analyze a research paper in a single Gemini call.
+    """Analyze a research paper in a single Gemini call.
 
     Returns a dictionary with executive summary, takeaways, quiz questions,
     interview questions, future research ideas, beginner explanation,
     and difficulty rating.
+
+    Raises:
+        ValueError: If input text is empty or non-string.
+        RuntimeError: If Gemini API call fails or JSON response is invalid.
     """
+    if not text or not isinstance(text, str) or not text.strip():
+        raise ValueError("Cannot analyze empty paper text.")
+
     model = get_generative_model("gemini-2.5-flash")
 
     if len(text) > MAX_ANALYSIS_CHARS:
@@ -70,11 +78,30 @@ def analyze_research_paper(text: str) -> dict:
         f"Paper text:\n\n{text}"
     )
 
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.GenerationConfig(
-            response_mime_type="application/json",
-        ),
-    )
+    def _generate():
+        return model.generate_content(
+            prompt,
+            generation_config=genai.GenerationConfig(
+                response_mime_type="application/json",
+            ),
+        )
 
-    return json.loads(response.text)
+    response = call_gemini_with_retry(_generate)
+
+    raw_text = response.text.strip()
+    if raw_text.startswith("```json"):
+        raw_text = raw_text[7:]
+    if raw_text.startswith("```"):
+        raw_text = raw_text[3:]
+    if raw_text.endswith("```"):
+        raw_text = raw_text[:-3]
+    raw_text = raw_text.strip()
+
+    try:
+        return json.loads(raw_text)
+    except json.JSONDecodeError as exc:
+        logger.error(f"Failed to parse Gemini response as JSON: {exc}")
+        raise RuntimeError(
+            "Failed to parse research analysis from model output."
+        ) from exc
+

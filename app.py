@@ -16,6 +16,8 @@ from src.utils.formatting import (
     format_file_size,
     sanitize_paper_filename,
 )
+from src.utils.validation import validate_pdf_file
+
 
 st.set_page_config(
     page_title="ScholarAI",
@@ -245,11 +247,13 @@ def run_paper_analysis(uploaded_file, char_count: int) -> None:
 
     with st.status("Analyzing paper...", expanded=True) as status:
         try:
+            validate_pdf_file(uploaded_file)
             st.write("1. Extracting PDF text...")
             progress_bar.progress(10, text="Step 1 of 5: Extracting PDF text")
 
             if st.session_state.pdf_details is None:
                 st.session_state.pdf_details = extract_pdf_details(uploaded_file)
+
 
             text = st.session_state.pdf_details["text"]
             if not text.strip():

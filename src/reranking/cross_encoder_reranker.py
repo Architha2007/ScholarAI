@@ -38,8 +38,6 @@ def _get_model() -> Optional[Any]:
                 "cross-encoder/ms-marco-MiniLM-L-6-v2"
             )
         except Exception as e:
-            print("MODEL LOAD FAILED:")
-            print(repr(e))
             logger.warning("Failed to load CrossEncoder model: %s", e)
             return None
 
@@ -69,6 +67,12 @@ def rerank_results(
     """
     if not retrieved_chunks:
         return []
+
+    # Handle single chunk candidate edge case quickly
+    if len(retrieved_chunks) == 1:
+        single = dict(retrieved_chunks[0])
+        single["reranker_score"] = single.get("retrieval_score", 1.0)
+        return [single]
 
     # Handle empty/blank query gracefully by returning original chunks
     if not query or not query.strip():
@@ -106,7 +110,6 @@ def rerank_results(
         return reranked[:top_k]
 
     except Exception as e:
-        print("INFERENCE FAILED:")
-        print(repr(e))
         logger.warning("Inference or scoring failed in CrossEncoder: %s", e)
         return retrieved_chunks[:top_k]
+

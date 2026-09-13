@@ -89,6 +89,11 @@ def fuse_results(
     return fused_results
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 def hybrid_search(
     vector_store: Any,
     bm25_retriever: Any,
@@ -97,6 +102,11 @@ def hybrid_search(
     rrf_k: int = 60
 ) -> List[Dict[str, Any]]:
     """Performs hybrid search by querying FAISS and BM25 and fusing.
+
+    Implements graceful degradation fallback:
+    - If BM25 fails, falls back to FAISS results.
+    - If FAISS fails, falls back to BM25 results.
+    - If both fail or query is empty, returns empty list.
 
     Args:
         vector_store: Built FAISS vector store.
@@ -108,13 +118,32 @@ def hybrid_search(
     Returns:
         List of fused search results.
     """
-    # 1. Query FAISS
-    faiss_results = vector_store.similarity_search(query, k=top_k)
+    if not query or not isinstance(query, str) or not query.strip():
+        return []
 
-    # 2. Query BM25
-    from src.retrieval.bm25_retriever import search_bm25
-    bm25_results = search_bm25(bm25_retriever, query, top_k=top_k)
+    faiss_results = []
+    if vector_store is not None:
+        try:
+            faiss_results = vector_store.similarity_search(query, k=top_k)
+        except Exception as exc:
+            logger.warning(
+                f"FAISS search failed, falling back to BM25: {exc}"
+            )
 
-    # 3. Fuse and slice
+    bm25_results = []
+    if bm25_retriever is not None:
+        try:
+            from src.retrieval.bm25_retriever import search_bm25
+            bm25_results = search_bm25(bm25_retriever, query, top_k=top_k)
+        except Exception as exc:
+            logger.warning(
+                f"BM25 search failed, falling back to FAISS: {exc}"
+            )
+
+    if not faiss_results and not bm25_results:
+        logger.warning("Both FAISS and BM25 retrieval yielded 0 results.")
+        return []
+
     fused = fuse_results(faiss_results, bm25_results, k=rrf_k)
     return fused[:top_k]
+

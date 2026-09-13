@@ -76,3 +76,28 @@ Evaluated 4 embedding candidate models across the 20-query ground-truth dataset 
 - **M6.4 Reranking Benchmark Results:** [data/evaluation/results/reranking_benchmark.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/reranking_benchmark.json)
 - **M6.5 Ablation Study Results:** [data/evaluation/results/ablation_study.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/ablation_study.json)
 - **M8 Embedding Comparison Results:** [data/evaluation/results/embedding_comparison.json](file:///c:/Users/archi/OneDrive/Desktop/ScholarAI/data/evaluation/results/embedding_comparison.json)
+
+---
+
+## 🛡️ Milestone 9 — Production Robustness & Error Handling
+
+Implemented systemic error handling, input validation, exponential backoff retries, and fallback chains across the ingestion → retrieval → reranking → generation pipeline.
+
+### Robustness & Fail-Safe Matrix
+
+| Component / Layer | Failure Mode / Edge Case | Handled Behavior & Fallback Mechanism |
+| :--- | :--- | :--- |
+| **PDF Ingestion** | 0-byte file, non-PDF extension, >50MB file | Validated in `src/utils/validation.py`. Raises clear `ValueError` before processing. |
+| **PDF Extraction** | Scanned / image-only PDF (0 characters) | Detects whitespace/empty text, raises `ValueError` ("No extractable text found..."). |
+| **PDF Extraction** | Corrupted / malformed binary PDF | Catches `PyPdfError`, raises `ValueError` ("Uploaded PDF file is corrupted or malformed."). |
+| **Search Query** | Blank, whitespace-only, non-string, >1000 chars | Validated by `validate_query`. Trims query, enforces limit, returns clean error. |
+| **Gemini API** | Rate limits (429), quota limits, 5xx server errors | Retries with exponential backoff (1s, 2s, 4s). Masked logs prevent API key leaks. |
+| **Gemini API** | Max retries exhausted (3 attempts) | Raises `RuntimeError` with user-friendly message ("Gemini API service unavailable..."). |
+| **Sparse Retrieval** | BM25 model failure or missing index | `hybrid_search` catches exception, logs warning, and degrades gracefully to **FAISS-only**. |
+| **Dense Retrieval** | FAISS index search exception | `hybrid_search` catches exception, logs warning, and degrades gracefully to **BM25-only**. |
+| **Cross-Encoder** | Single candidate chunk (1 item) or 0 items | Bypasses model scoring, assigns score, returns directly without inference overhead. |
+| **Cross-Encoder** | Model import or inference exception | `rerank_results` catches exception, logs warning, and falls back to **Hybrid RRF** order. |
+| **User Interface** | Uncaught exceptions during analysis or QA | Streamlit catches `ValueError`/`RuntimeError` and displays clean `st.error()` without crashing session state. |
+
+---
+
