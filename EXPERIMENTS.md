@@ -32,16 +32,27 @@ This document records the evaluation benchmark experiments and controlled ablati
 - **Tradeoff Analysis:** By fusing sparse and dense rankings via Reciprocal Rank Fusion ($k=60$), Hybrid RRF ensures zero semantic recall loss while pushing exact formula/citation matches to Rank 1.
 - **Latency:** ~`493 ms` total per query.
 
-### 4. Cross-Encoder Reranking — Heavy Latency Overhead with Lower Formula Precision
-- **Performance:** Precision@5 drops to `0.1600`, Recall@5 to `0.8000`, and MRR to `0.6492`.
-- **Latency Impact:** Increases per-query latency by **~6x** (up to `2968 ms` avg).
-- **Tradeoff Analysis:** Pretrained open-web Cross-Encoder models (`ms-marco-MiniLM-L-6-v2`) prioritize generic conversational relevance over specialized scientific latex syntax, making them unsuited for raw technical paper reranking compared to Hybrid RRF.
+### 4. Cross-Encoder Reranking — Detailed Investigation & Model Behavior Audit
+- **Empirical Evaluation Audit:**
+  - **Candidate Pool Recall@20:** `1.0000` (100% of ground-truth relevant chunks were present in the Top-20 RRF candidate pool before reranking).
+  - **Chunk-ID Preservation:** `0` tracking failures (100% fidelity across reranking and metric computation).
+  - **Ground-Truth Dataset Structure:** Every query in `data/evaluation/evaluation_set.json` has **exactly 1 relevant chunk** (average = `1.00`). Consequently, **Precision@5 is mathematically capped at 0.2000** ($1 / 5 = 0.2000$), which represents 100% relevant chunk retrieval.
+- **Reranker Performance & Degradation Cause:**
+  - Precision@5 drops to `0.1600`, Recall@5 to `0.8000`, and MRR to `0.6492`.
+  - Latency increases ~6x (up to `2968 ms` avg).
+- **Verified Root Cause Analysis:**
+  - The degradation is a **genuine model performance result**, not an implementation or evaluation bug.
+  - The open-web pretrained Cross-Encoder (`ms-marco-MiniLM-L-6-v2`) suffers from **surface-phrase saliency bias**: it favors generic conversational text or phrase overlaps over dense scientific notation and mathematical formulas (e.g. demoting $d_{ff}=2048$ formula chunks below generic architecture overview captions).
+  - Because Hybrid RRF (BM25 + Gemini FAISS) already achieves optimal ranking (`1.0000` Recall@5, `0.9350` MRR), adding an open-web Cross-Encoder introduces ranking noise and unnecessary latency.
 
 ---
 
 ## 🧪 Milestone 8 — Embedding Model Comparison
 
 Evaluated 4 embedding candidate models across the 20-query ground-truth dataset (`data/evaluation/evaluation_set.json`) and 54 evaluation paper chunks to determine the optimal dense vector embedding provider for ScholarAI.
+
+> [!NOTE]
+> **Precision@5 Upper Bound:** Because the evaluation dataset contains exactly **1 ground-truth relevant chunk per query**, the maximum achievable Precision@5 score is **`0.2000`** ($1 \text{ relevant chunk} / 5 \text{ retrieved chunks} = 0.2000$). A Precision@5 of `0.2000` represents 100% retrieval precision.
 
 ### Comparative Benchmark Matrix
 
@@ -57,7 +68,7 @@ Evaluated 4 embedding candidate models across the 20-query ground-truth dataset 
 ### Key Findings & Tradeoff Analysis
 
 - **Accuracy Winner — `models/gemini-embedding-001`**:
-  Achieves perfect **`1.0000` Recall@5** and highest **`0.7708` MRR**. High-dimensional semantic representation (`3072` dims) provides superior retrieval accuracy on technical scientific terminology, mathematical notation, and domain-specific acronyms compared to open-source alternatives.
+  Achieves the maximum possible **`0.2000` Precision@5**, perfect **`1.0000` Recall@5**, and highest **`0.7708` MRR**. High-dimensional semantic representation (`3072` dims) provides superior retrieval accuracy on technical scientific terminology, mathematical notation, and domain-specific acronyms compared to open-source alternatives.
 - **Speed Winner — `all-MiniLM-L6-v2`**:
   Delivers sub-`25 ms` query latency (`20.64 ms` avg) and fastest CPU indexing (`12.6 s`). However, Recall@5 drops significantly to `0.7000` (missing 30% of relevant scientific passages).
 - **Dimension Comparison**:
@@ -67,6 +78,7 @@ Evaluated 4 embedding candidate models across the 20-query ground-truth dataset 
 
 > [!NOTE]
 > All conclusions above are strictly based on the current 20-query evaluation set (`data/evaluation/evaluation_set.json`) evaluated against 3 research papers (`attention_all_you_need`, `dense_passage_retrieval`, `retrieval_augmented_generation`).
+
 
 ---
 

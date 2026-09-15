@@ -233,8 +233,25 @@ class TestEvaluationDataset(unittest.TestCase):
             f"corpus docs {expected_docs}"
         )
 
+    def test_relevant_chunk_count_distribution(self):
+        """13. Every query has 1 relevant chunk (Precision@5 cap: 0.20)."""
+        with open(DATASET_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        queries = data.get("queries", [])
+        for q in queries:
+            qid = q.get("query_id")
+            rel_chunks = q.get("expected_relevant_chunks", [])
+            msg = f"Query {qid} has {len(rel_chunks)} rel chunks; expected 1."
+            self.assertEqual(
+                len(rel_chunks),
+                1,
+                msg,
+            )
+
 
 if __name__ == "__main__":
+
     print("\n" + "=" * 80)
     print("RUNNING SCHOLARAI RETRIEVAL EVALUATION DATASET VALIDATION TESTS")
     print("=" * 80)
