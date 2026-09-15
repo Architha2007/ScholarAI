@@ -7,9 +7,8 @@ This module handles the "indexing" side of RAG:
 3. Store those vectors in FAISS for fast similarity search
 """
 
-import os
-
 from langchain_community.vectorstores import FAISS
+
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from src.preprocessing.chunking import create_text_chunks

@@ -4,10 +4,14 @@ This module implements Reciprocal Rank Fusion (RRF) to fuse results from
 dense vector retrieval (FAISS) and sparse keyword retrieval (BM25).
 """
 
+import logging
 from typing import Any, Dict, List
+
+logger = logging.getLogger(__name__)
 
 
 def fuse_results(
+
     faiss_results: List[Any],
     bm25_results: List[Any],
     k: int = 60
@@ -89,11 +93,6 @@ def fuse_results(
     return fused_results
 
 
-import logging
-
-logger = logging.getLogger(__name__)
-
-
 def hybrid_search(
     vector_store: Any,
     bm25_retriever: Any,
@@ -146,4 +145,3 @@ def hybrid_search(
 
     fused = fuse_results(faiss_results, bm25_results, k=rrf_k)
     return fused[:top_k]
-

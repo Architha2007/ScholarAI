@@ -112,4 +112,3 @@ def rerank_results(
     except Exception as e:
         logger.warning("Inference or scoring failed in CrossEncoder: %s", e)
         return retrieved_chunks[:top_k]
-

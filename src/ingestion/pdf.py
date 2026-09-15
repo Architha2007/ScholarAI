@@ -29,8 +29,10 @@ def extract_pdf_details(pdf_file) -> dict:
         Dict containing text, page_count, and char_count.
 
     Raises:
-        ValueError: If PDF is missing, malformed, empty, or scanned without text.
+        ValueError: If PDF is missing, malformed, empty, or scanned
+            without text.
     """
+
     validate_pdf_file(pdf_file)
 
     filename = getattr(pdf_file, "name", "document.pdf")

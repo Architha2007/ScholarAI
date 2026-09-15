@@ -2,8 +2,9 @@
 
 
 def sanitize_paper_filename(paper_name: str) -> str:
-    """Turn a PDF filename into a safe name for the analysis export file."""
-    base_name = paper_name.rsplit(".", 1)[0] if "." in paper_name else paper_name
+    has_ext = "." in paper_name
+    base_name = paper_name.rsplit(".", 1)[0] if has_ext else paper_name
+
     safe_name = "".join(
         character if character.isalnum() or character in ("-", "_") else "_"
         for character in base_name

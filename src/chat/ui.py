@@ -7,7 +7,7 @@ from src.retrieval.qa import ask_paper_question
 
 
 def show_chat_with_paper() -> None:
-    """Render the Streamlit chat interface for asking questions about the PDF."""
+    """Render Streamlit chat interface for asking paper questions."""
     st.markdown("---")
 
     chat_header_col, clear_col = st.columns([4, 1])
@@ -25,13 +25,17 @@ def show_chat_with_paper() -> None:
             "🗑️ Clear Chat",
             key="clear_chat_button",
             use_container_width=True,
-            help="Remove chat messages but keep your indexed PDF ready for new questions.",
+            help="Remove chat messages but keep your indexed PDF ready.",
         ):
             clear_chat_history()
-            st.toast("Chat history cleared. Your PDF index is still active.", icon="✅")
+            st.toast(
+                "Chat history cleared. Your PDF index is still active.",
+                icon="✅",
+            )
             st.rerun()
 
     # Show previous chat messages.
+
     for message in st.session_state.chat_messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
@@ -157,4 +161,3 @@ def handle_chat_input() -> None:
                             "source_chunks": [],
                         }
                     )
-

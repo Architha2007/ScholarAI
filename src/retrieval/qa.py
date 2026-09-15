@@ -112,4 +112,3 @@ def ask_paper_question(vector_store: FAISS, question: str) -> dict:
         "answer": answer,
         "source_chunks": source_chunks,
     }
-

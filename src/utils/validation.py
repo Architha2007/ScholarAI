@@ -59,7 +59,8 @@ def validate_pdf_file(
         max_size_bytes: Maximum allowed file size in bytes.
 
     Raises:
-        ValueError: If file is missing, not a PDF, empty (0 bytes), or too large.
+        ValueError: If file is missing, not a PDF, empty (0 bytes),
+            or too large.
     """
     if pdf_file is None:
         logger.warning("No PDF file provided for validation.")
@@ -73,13 +74,15 @@ def validate_pdf_file(
         )
 
     size = getattr(pdf_file, "size", None)
-    if size is None and hasattr(pdf_file, "seek") and hasattr(pdf_file, "tell"):
+    has_seek = hasattr(pdf_file, "seek") and hasattr(pdf_file, "tell")
+    if size is None and has_seek:
         curr_pos = pdf_file.tell()
         pdf_file.seek(0, 2)
         size = pdf_file.tell()
         pdf_file.seek(curr_pos)
 
     if size == 0:
+
         logger.warning("Uploaded PDF is 0 bytes: %s", filename)
         raise ValueError("Uploaded PDF file is empty (0 bytes).")
 

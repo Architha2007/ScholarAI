@@ -9,9 +9,9 @@ from src.utils.gemini import call_gemini_with_retry, get_generative_model
 logger = logging.getLogger(__name__)
 
 
-
 def analyze_research_paper(text: str) -> dict:
     """Analyze a research paper in a single Gemini call.
+
 
     Returns a dictionary with executive summary, takeaways, quiz questions,
     interview questions, future research ideas, beginner explanation,
@@ -104,4 +104,3 @@ def analyze_research_paper(text: str) -> dict:
         raise RuntimeError(
             "Failed to parse research analysis from model output."
         ) from exc
-

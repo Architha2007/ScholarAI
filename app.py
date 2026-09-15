@@ -4,18 +4,26 @@ import streamlit as st
 
 from src.chat.state import reset_paper_state
 from src.chat.ui import handle_chat_input, show_chat_with_paper
-from src.config.settings import APP_MODEL, INDEXING_CHAR_LIMIT, MAX_ANALYSIS_CHARS
+from src.config.settings import (
+    APP_MODEL,
+    INDEXING_CHAR_LIMIT,
+    MAX_ANALYSIS_CHARS,
+)
 from src.dashboard.metrics_dashboard import render_metrics_dashboard
 from src.generation.summarizer import analyze_research_paper
 from src.ingestion.pdf import extract_pdf_details
 from src.preprocessing.chunking import create_text_chunks
-from src.preprocessing.text import get_text_processing_stats, trim_text_for_analysis
+from src.preprocessing.text import (
+    get_text_processing_stats,
+    trim_text_for_analysis,
+)
 from src.retrieval.vector_store import build_vector_store_from_chunks
 from src.utils.formatting import (
     format_analysis_export,
     format_file_size,
     sanitize_paper_filename,
 )
+from src.utils.gemini import get_generative_model
 from src.utils.validation import validate_pdf_file
 
 
@@ -27,11 +35,12 @@ st.set_page_config(
 )
 if st.button("Test Gemini"):
     try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        model = get_generative_model("gemini-2.5-flash")
         response = model.generate_content("Say hello")
         st.success(response.text)
     except Exception as e:
         st.error(str(e))
+
 
 # ---------------------------------------------------------------------------
 # Custom styling for a clean, beginner-friendly layout.
@@ -42,7 +51,10 @@ st.markdown(
         .hero-title {
             font-size: 2.6rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+            background: linear-gradient(
+                135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%
+            );
+
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.35rem;
@@ -252,8 +264,9 @@ def run_paper_analysis(uploaded_file, char_count: int) -> None:
             progress_bar.progress(10, text="Step 1 of 5: Extracting PDF text")
 
             if st.session_state.pdf_details is None:
-                st.session_state.pdf_details = extract_pdf_details(uploaded_file)
-
+                st.session_state.pdf_details = extract_pdf_details(
+                    uploaded_file
+                )
 
             text = st.session_state.pdf_details["text"]
             if not text.strip():
@@ -270,8 +283,11 @@ def run_paper_analysis(uploaded_file, char_count: int) -> None:
             st.caption(f"Created {chunk_result['chunks_created']} chunks.")
 
             st.write("3. Building vector database...")
-            progress_bar.progress(55, text="Step 3 of 5: Building vector database")
-            vector_store = build_vector_store_from_chunks(chunk_result["chunks"])
+            progress_bar.progress(
+                55, text="Step 3 of 5: Building vector database"
+            )
+            chunks = chunk_result["chunks"]
+            vector_store = build_vector_store_from_chunks(chunks)
 
             st.write("4. Generating analysis...")
             progress_bar.progress(75, text="Step 4 of 5: Generating analysis")
@@ -297,7 +313,7 @@ def run_paper_analysis(uploaded_file, char_count: int) -> None:
             st.session_state.chat_messages = []
 
             st.success("✅ Vector database created successfully!")
-            #st.rerun()
+            # st.rerun()
 
         except ValueError as error:
             status.update(label="Analysis failed", state="error")
@@ -317,10 +333,15 @@ def show_pdf_statistics(uploaded_file) -> None:
 
     chars_indexed = indexing.get("chars_indexed")
     if chars_indexed is None:
-        chars_indexed = get_text_processing_stats(char_count)["chars_indexed"]
-    chars_display = f"{chars_indexed:,}" if isinstance(chars_indexed, int) else "—"
+        stats = get_text_processing_stats(char_count)
+        chars_indexed = stats["chars_indexed"]
+    if isinstance(chars_indexed, int):
+        chars_display = f"{chars_indexed:,}"
+    else:
+        chars_display = "—"
 
     chunks_display = (
+
         str(indexing["chunks_created"])
         if "chunks_created" in indexing
         else "—"
@@ -425,10 +446,12 @@ else:
 st.markdown(
     '<p class="hero-subtitle">'
     "Upload a research paper PDF to get an AI-powered analysis, "
-    "then chat with your paper using smart search (RAG) — all powered by Google Gemini."
+    "then chat with your paper using smart search (RAG) — "
+    "all powered by Google Gemini."
     "</p>",
     unsafe_allow_html=True,
 )
+
 
 show_metrics_row()
 st.divider()

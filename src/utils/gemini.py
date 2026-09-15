@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_gemini_api_key() -> str:
-    """Retrieves the Gemini API key from Streamlit secrets or environment variables.
+    """Retrieves the Gemini API key from Streamlit secrets or env vars.
 
     Raises:
         ValueError: If the API key is not found in either location.
@@ -27,7 +27,8 @@ def get_gemini_api_key() -> str:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         raise ValueError(
-            "GEMINI_API_KEY not found in Streamlit secrets or environment variables."
+            "GEMINI_API_KEY not found in Streamlit secrets or "
+            "environment variables."
         )
     return api_key
 
@@ -46,8 +47,6 @@ def get_generative_model(
     api_key = get_gemini_api_key()
     genai.configure(api_key=api_key)
     return genai.GenerativeModel(model_name)
-
-
 
 
 def call_gemini_with_retry(
@@ -98,4 +97,3 @@ def call_gemini_with_retry(
         "Gemini API service is currently unavailable or rate-limited. "
         "Please try again in a few moments."
     ) from last_exception
-
