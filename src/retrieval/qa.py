@@ -10,11 +10,6 @@ from src.utils.validation import validate_query
 logger = logging.getLogger(__name__)
 
 
-def _get_api_key() -> str:
-    """Read the Gemini API key from Streamlit secrets or .env."""
-    return get_gemini_api_key()
-
-
 def _format_context_chunks(documents) -> str:
     """Turn retrieved LangChain Document objects into one prompt string.
 
@@ -88,11 +83,12 @@ def ask_paper_question(vector_store: FAISS, question: str) -> dict:
     # Step 3: ask Gemini 2.5 Flash to generate the final answer with retry.
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
-        google_api_key=_get_api_key(),
+        google_api_key=get_gemini_api_key(),
         temperature=0.2,
     )
 
     def _invoke():
+
         return llm.invoke(prompt)
 
     response = call_gemini_with_retry(_invoke)
