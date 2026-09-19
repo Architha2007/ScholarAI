@@ -1,0 +1,246 @@
+{
+  "dataset_metadata": {
+    "version": "1.0.0",
+    "creation_date": "2026-08-29",
+    "description": "ScholarAI Milestone 5 ground-truth retrieval evaluation dataset. Contains curated questions across technical, semantic, lexical, abbreviation, and hybrid scenarios.",
+    "chunk_size": 4000,
+    "chunk_overlap": 200,
+    "indexing_character_limit": 50000,
+    "corpus_files": [
+      {
+        "doc_id": "attention_all_you_need.pdf",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "doc_id": "retrieval_augmented_generation.pdf",
+        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+      },
+      {
+        "doc_id": "dense_passage_retrieval.pdf",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering"
+      }
+    ]
+  },
+  "queries": [
+    {
+      "query_id": "q_attention_01",
+      "query": "What is the mathematical formula for Scaled Dot-Product Attention in the Transformer model?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 5,
+          "text_snippet": "Attention(Q, K, V) = softmax(QK T"
+        }
+      ]
+    },
+    {
+      "query_id": "q_attention_02",
+      "query": "Where was the paper Attention Is All You Need published or presented?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 1,
+          "text_snippet": "31st Conference on Neural Information Processing Systems (NIPS 2017)"
+        }
+      ]
+    },
+    {
+      "query_id": "q_attention_03",
+      "query": "What is the inner-layer dimensionality and activation function of the feed-forward networks in the Transformer?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 6,
+          "text_snippet": "The dimensionality of input and output is dmodel = 512, and the inner-layer has dimensionality\ndf f= 2048."
+        }
+      ]
+    },
+    {
+      "query_id": "q_attention_04",
+      "query": "How does the sequential nature of recurrent neural networks limit training parallelization?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 2,
+          "text_snippet": "This inherently\nsequential nature precludes parallelization within training examples"
+        }
+      ]
+    },
+    {
+      "query_id": "q_attention_05",
+      "query": "How does the Transformer handle residual connections and layer normalization in its encoder layers?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 4,
+          "text_snippet": "We employ a residual connection [11] around each of\nthe two sub-layers, followed by layer normalization [ 1]. That is, the output of each sub-layer is"
+        }
+      ]
+    },
+    {
+      "query_id": "q_attention_06",
+      "query": "What is the maximum path length and complexity comparison between self-attention layers and recurrent layers?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 7,
+          "text_snippet": "self-attention layer connects all positions with a constant number of sequentially\nexecuted operations, whereas a recurrent layer requires O(n) sequential operations."
+        }
+      ]
+    },
+    {
+      "query_id": "q_attention_07",
+      "query": "Does multi-head attention allow the model to jointly attend to different representation subspaces?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "attention_all_you_need.pdf",
+          "chunk_id": 6,
+          "text_snippet": "Multi-head attention allows the model to jointly attend to information from different representation"
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_01",
+      "query": "What is the mathematical formulation of the RAG-Sequence model probability calculation?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 4,
+          "text_snippet": "pRAG-Sequence(y|x) ≈"
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_02",
+      "query": "Is the RAG retriever component based on the bi-encoder architecture from DPR?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 4,
+          "text_snippet": "retrieval componentpη(z|x) is based on DPR [26]. DPR follows a bi-encoder architecture"
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_03",
+      "query": "How is the Wikipedia knowledge source chunked and indexed in RAG using FAISS and MIPS?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 5,
+          "text_snippet": "build a single MIPS index using FAISS [23] with a Hierarchical\nNavigable Small World approximation"
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_04",
+      "query": "How are the generator and retriever components trained end-to-end without document-level supervision?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 4,
+          "text_snippet": "jointly train the retriever and generator components without any direct supervision"
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_05",
+      "query": "What metrics are used in human evaluations to assess Jeopardy question generation quality?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 7,
+          "text_snippet": "We also perform two human evaluations, one to assess generation factuality, and\none for speciﬁcity."
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_06",
+      "query": "What is the difference between Thorough Decoding and Fast Decoding in RAG-Sequence?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 5,
+          "text_snippet": "We refer to this decoding procedure as “Thorough Decoding.”"
+        }
+      ]
+    },
+    {
+      "query_id": "q_rag_07",
+      "query": "Was BART pre-trained using a denoising objective and what is its role in RAG?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "retrieval_augmented_generation.pdf",
+          "chunk_id": 4,
+          "text_snippet": "BART was\npre-trained using a denoising objective and a variety of different noising functions"
+        }
+      ]
+    },
+    {
+      "query_id": "q_dpr_01",
+      "query": "What is the dual-encoder dot product similarity function used in Dense Passage Retrieval?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "dense_passage_retrieval.pdf",
+          "chunk_id": 5,
+          "text_snippet": "sim(q,p ) = EQ(q)"
+        }
+      ]
+    },
+    {
+      "query_id": "q_dpr_02",
+      "query": "What are some example factoid questions used to describe open-domain QA in DPR?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "dense_passage_retrieval.pdf",
+          "chunk_id": 3,
+          "text_snippet": "“Who ﬁrst voiced Meg on Family\nGuy?” or “Where was the 8th Dalai Lama born?”"
+        }
+      ]
+    },
+    {
+      "query_id": "q_dpr_03",
+      "query": "What is the negative log likelihood loss function optimized for DPR?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "dense_passage_retrieval.pdf",
+          "chunk_id": 5,
+          "text_snippet": "as the negative log likelihood of the positive pas-\nsage:"
+        }
+      ]
+    },
+    {
+      "query_id": "q_dpr_04",
+      "query": "How does dense passage retrieval resolve semantic synonym matches like bad guy and villain?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "dense_passage_retrieval.pdf",
+          "chunk_id": 1,
+          "text_snippet": "Who is the bad guy in lord of the rings"
+        }
+      ]
+    },
+    {
+      "query_id": "q_dpr_05",
+      "query": "What are the three different types of negatives considered for training the DPR retriever?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "dense_passage_retrieval.pdf",
+          "chunk_id": 5,
+          "text_snippet": "We consider\nthree different types of negatives: (1) Random"
+        }
+      ]
+    },
+    {
+      "query_id": "q_dpr_06",
+      "query": "Why does ORQA suffer from computationally intensive ICT pretraining and suboptimal representations?",
+      "expected_relevant_chunks": [
+        {
+          "doc_id": "dense_passage_retrieval.pdf",
+          "chunk_id": 3,
+          "text_snippet": "ICT pretraining is computationally intensive"
+        }
+      ]
+    }
+  ]
+}

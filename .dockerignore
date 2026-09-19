@@ -1,0 +1,29 @@
+# Environment and virtual environment directories
+.venv/
+venv/
+
+# Python cache and build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Git metadata
+.git/
+.gitignore
+
+# Environment variables and secrets
+.env
+.env.example
+*.pem
+*.key
+
+# IDE and agent metadata
+.gemini/
+.idea/
+.vscode/
+
+# Logs and scratch files
+*.log
+scratch/

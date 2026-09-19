@@ -1,0 +1,106 @@
+import json
+import logging
+
+import google.generativeai as genai
+
+from src.config.settings import MAX_ANALYSIS_CHARS
+from src.utils.gemini import call_gemini_with_retry, get_generative_model
+
+logger = logging.getLogger(__name__)
+
+
+def analyze_research_paper(text: str) -> dict:
+    """Analyze a research paper in a single Gemini call.
+
+
+    Returns a dictionary with executive summary, takeaways, quiz questions,
+    interview questions, future research ideas, beginner explanation,
+    and difficulty rating.
+
+    Raises:
+        ValueError: If input text is empty or non-string.
+        RuntimeError: If Gemini API call fails or JSON response is invalid.
+    """
+    if not text or not isinstance(text, str) or not text.strip():
+        raise ValueError("Cannot analyze empty paper text.")
+
+    model = get_generative_model("gemini-2.5-flash")
+
+    if len(text) > MAX_ANALYSIS_CHARS:
+        text = text[:MAX_ANALYSIS_CHARS]
+
+    prompt = (
+        "You are an expert AI research assistant. "
+        "Read the research paper below and return a JSON object with exactly "
+        "these keys:\n\n"
+        "{\n"
+        '  "executive_summary": "A concise 3-5 sentence overview of '
+        'the paper",\n'
+        '  "key_takeaways": ["takeaway 1", "takeaway 2", "takeaway 3", '
+        '"takeaway 4", "takeaway 5"],\n'
+        '  "beginner_explanation": "Explain the paper like the reader is 15 '
+        'years old. Use simple words and relatable examples.",\n'
+        '  "quiz_questions": [\n'
+        '    {"question": "...", "answer": "..."},\n'
+        '    {"question": "...", "answer": "..."},\n'
+        '    {"question": "...", "answer": "..."},\n'
+        '    {"question": "...", "answer": "..."},\n'
+        '    {"question": "...", "answer": "..."}\n'
+        "  ],\n"
+        '  "interview_questions": [\n'
+        '    "technical interview question 1",\n'
+        '    "technical interview question 2",\n'
+        '    "technical interview question 3",\n'
+        '    "technical interview question 4",\n'
+        '    "technical interview question 5"\n'
+        "  ],\n"
+        '  "future_research_ideas": [\n'
+        '    "future research direction or improvement 1",\n'
+        '    "future research direction or improvement 2",\n'
+        '    "future research direction or improvement 3",\n'
+        '    "future research direction or improvement 4",\n'
+        '    "future research direction or improvement 5"\n'
+        "  ],\n"
+        '  "difficulty_rating": 7\n'
+        "}\n\n"
+        "Rules:\n"
+        "- key_takeaways must have exactly 5 bullet points.\n"
+        "- quiz_questions must have exactly 5 items with question "
+        "and answer.\n"
+        "- interview_questions must have exactly 5 technical questions "
+        "suitable for a job interview.\n"
+        "- future_research_ideas must have exactly 5 items describing "
+        "possible future research directions or improvements based on "
+        "the paper.\n"
+        "- difficulty_rating must be an integer from 1 (very easy) to 10 "
+        "(very advanced).\n"
+        "- Return only valid JSON, no markdown or extra text.\n\n"
+        f"Paper text:\n\n{text}"
+    )
+
+    def _generate():
+        return model.generate_content(
+            prompt,
+            generation_config=genai.GenerationConfig(
+                response_mime_type="application/json",
+            ),
+        )
+
+    response = call_gemini_with_retry(_generate)
+
+    raw_text = response.text.strip()
+    if raw_text.startswith("```json"):
+        raw_text = raw_text[7:]
+    if raw_text.startswith("```"):
+        raw_text = raw_text[3:]
+    if raw_text.endswith("```"):
+        raw_text = raw_text[:-3]
+    raw_text = raw_text.strip()
+
+    try:
+        return json.loads(raw_text)
+    except json.JSONDecodeError as exc:
+        logger.error(f"Failed to parse Gemini response as JSON: {exc}")
+        raise RuntimeError(
+            "Failed to parse research analysis from model output."
+        ) from exc
